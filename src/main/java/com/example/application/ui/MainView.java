@@ -152,8 +152,9 @@ public class MainView extends AppLayout {
         layout.setId("header");
         layout.getThemeList().set("dark", true);
         layout.setWidthFull();
-        layout.setHeight("60px");
+        layout.setHeight("70px");
         layout.setSpacing(false);
+        layout.setMargin(false);
         layout.setAlignItems(FlexComponent.Alignment.CENTER);
 
         // Have the drawer toggle button on the left
@@ -162,6 +163,7 @@ public class MainView extends AppLayout {
         // Placeholder for the title of the current view.
         viewTitle = new H4();
         layout.add(viewTitle);
+
 
         // A user icon
         //layout.add(new Image("/logo_LL.jpg", "Avatar"));

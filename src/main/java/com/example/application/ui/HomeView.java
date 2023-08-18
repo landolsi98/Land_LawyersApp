@@ -21,7 +21,7 @@ public class HomeView extends VerticalLayout {
 
     public HomeView() {
         // Set background image styling
-        Html styleTag = new Html("<style>body { background-image: url('images/background.jpg'); background-size: 100% 550px; background-repeat: no-repeat; }</style>");
+        Html styleTag = new Html("<style>body { background-image: url('images/background.jpg'); background-size: 100% 500px; background-repeat: no-repeat; }</style>");
         add(styleTag);
 
         // Create the text overlay
@@ -46,7 +46,7 @@ public class HomeView extends VerticalLayout {
 
     private Div createTextOverlay() {
         Div textOverlay = new Div();
-        textOverlay.getStyle().set("position", "absolute");
+        //textOverlay.getStyle().set("position", "absolute");
         textOverlay.getStyle().set("top", "30%");
         textOverlay.getStyle().set("left", "50%");
         textOverlay.getStyle().set("transform", "translate(-50%, -50%)");
@@ -106,7 +106,8 @@ public class HomeView extends VerticalLayout {
                 LumoUtility.Overflow.HIDDEN,
                 LumoUtility.BorderRadius.MEDIUM,
                 LumoUtility.Width.FULL,
-                LumoUtility.BorderColor.CONTRAST_60,
+                LumoUtility.BorderColor.CONTRAST_80,
+
                 LumoUtility.Margin.MEDIUM
         );
         imageLayerContainer.setHeight("230px");

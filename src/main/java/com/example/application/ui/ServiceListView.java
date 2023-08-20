@@ -38,7 +38,7 @@ public class ServiceListView extends Main implements HasComponents, HasStyle {
 
 
     private void constructUI() {
-        addClassNames("image-list-view");
+        addClassNames("services");
         //big container
         addClassNames(LumoUtility.MaxWidth.SCREEN_LARGE, LumoUtility.Margin.Horizontal.AUTO, LumoUtility.Padding.Bottom.LARGE, LumoUtility.Padding.Horizontal.LARGE);
         addClassNames( LumoUtility.Display.FLEX, LumoUtility.FlexDirection.COLUMN, LumoUtility.AlignItems.CENTER, LumoUtility.Padding.MEDIUM,

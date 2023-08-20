@@ -36,6 +36,7 @@ public class MainView extends AppLayout {
         //  the menu in the drawer
         menu = createMenu();
         addToDrawer(createDrawerContent(menu));
+
     }
 
 
@@ -46,7 +47,8 @@ public class MainView extends AppLayout {
         layout.setSizeFull();
         layout.setPadding(false);
         layout.setSpacing(false);
-        layout.getThemeList().set("spacing-s", true);
+        layout.setMargin(false);
+        layout.getThemeList().remove("spacing-s");
         layout.setAlignItems(FlexComponent.Alignment.STRETCH);
 
 
@@ -57,7 +59,7 @@ public class MainView extends AppLayout {
         logoLayout.setId("logo");
         logoLayout.setAlignItems(FlexComponent.Alignment.CENTER);
 
-        // Add the logo image or any other content you want
+
         // Image logoImage = new Image("images/logo_LL.jpg", "Logo");
         // logoImage.setHeight("50px");
         // logoImage.setWidth("150px");
@@ -152,9 +154,13 @@ public class MainView extends AppLayout {
         layout.setId("header");
         layout.getThemeList().set("dark", true);
         layout.setWidthFull();
+        layout.setHeightFull();
         layout.setHeight("70px");
         layout.setSpacing(false);
         layout.setMargin(false);
+        layout.setPadding(false);
+        layout.getThemeList().remove("spacing-s");
+
         layout.setAlignItems(FlexComponent.Alignment.CENTER);
 
         // Have the drawer toggle button on the left

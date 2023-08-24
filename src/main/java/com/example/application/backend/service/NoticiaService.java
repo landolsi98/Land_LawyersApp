@@ -33,7 +33,9 @@ private final NoticiaRepository repository;
 
     @Override
     public Noticia add(Noticia noticia) {
-/*
+        noticia.setDate(new Date());
+        /*
+
         if (noticia.getImage() != null) {
             byte[] imageData = Base64.getDecoder().decode(noticia.getImage()); // Decode base64 image data
             String fileName = UUID.randomUUID().toString() + ".jpg";
@@ -55,8 +57,8 @@ private final NoticiaRepository repository;
         }
     }
 */
+    /*
     public Noticia addNoticiaWithImage(String title, byte[] imageData, String cuerpo,Noticia noticia) {
-        noticia.setDate(new Date());
 
         noticia.setTitle(title);
         noticia.setImage(imageData);
@@ -64,6 +66,8 @@ private final NoticiaRepository repository;
         // Set other properties as needed
         return repository.save(noticia);
     }
+
+     */
     @Override
     public Noticia update(Noticia noticia) {
         return repository.save(noticia);

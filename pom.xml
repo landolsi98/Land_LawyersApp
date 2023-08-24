@@ -29,6 +29,11 @@
                 <enabled>false</enabled>
             </snapshots>
         </repository>
+
+        <repository>
+            <id>central</id>
+            <url>https://repo.maven.apache.org/maven2</url>
+        </repository>
     </repositories>
 
     <dependencyManagement>
@@ -98,6 +103,11 @@
             <groupId>org.vaadin.crudui</groupId>
             <artifactId>crudui</artifactId>
             <version>7.1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-core</artifactId>
+            <version>6.2.7.Final</version>
         </dependency>
 
     </dependencies>

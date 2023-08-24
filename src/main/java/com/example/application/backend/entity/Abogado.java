@@ -2,10 +2,13 @@ package com.example.application.backend.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Arrays;
 import java.util.Objects;
 @NoArgsConstructor
 @AllArgsConstructor
@@ -26,7 +29,7 @@ public class Abogado {
     private String email;
     @Column
 
-    private  String specialty;
+    private String specialty;
     @Column
 
     private String phoneNumber;
@@ -37,6 +40,14 @@ public class Abogado {
 
     private String position;
 
+    @Lob
+    @Column(name = "image")
+    private byte[] image;
+
+    @Size(max = 255)
+    @NotNull
+    @Column(name = "description", nullable = false)
+    private String description;
 
 
     public Integer getIdAbogado() {
@@ -103,16 +114,27 @@ public class Abogado {
         this.position = position;
     }
 
+    public byte[] getImage() {
+        return image;
+    }
+
+    public void setImage(byte[] image) {
+        this.image = image;
+    }
+
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Abogado abogado = (Abogado) o;
-        return Objects.equals(idAbogado, abogado.idAbogado) && Objects.equals(firstName, abogado.firstName) && Objects.equals(lastName, abogado.lastName) && Objects.equals(email, abogado.email) && Objects.equals(specialty, abogado.specialty) && Objects.equals(phoneNumber, abogado.phoneNumber) && Objects.equals(barNumber, abogado.barNumber) && Objects.equals(position, abogado.position);
+        return Objects.equals(idAbogado, abogado.idAbogado) && Objects.equals(firstName, abogado.firstName) && Objects.equals(lastName, abogado.lastName) && Objects.equals(email, abogado.email) && Objects.equals(specialty, abogado.specialty) && Objects.equals(phoneNumber, abogado.phoneNumber) && Objects.equals(barNumber, abogado.barNumber) && Objects.equals(position, abogado.position) && Arrays.equals(image, abogado.image);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(idAbogado, firstName, lastName, email, specialty, phoneNumber, barNumber, position);
+        int result = Objects.hash(idAbogado, firstName, lastName, email, specialty, phoneNumber, barNumber, position);
+        result = 31 * result + Arrays.hashCode(image);
+        return result;
     }
 }

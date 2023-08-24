@@ -174,11 +174,11 @@ public class HomePage extends VerticalLayout {
     private Class<? extends Component> getTargetViewForTitle(String title) {
         switch (title) {
             case "Our Office":
-                return CitaView.class;
+                return TeamView.class;
             case "Expertise Areas":
                 return ServiceListView.class;
             case "Contact Us":
-                return DashNoticias.class;
+                return MapViewPort.class;
             default:
                 return HomePage.class;
         }
@@ -274,7 +274,7 @@ public class HomePage extends VerticalLayout {
     // Creation of vertical images
     public HorizontalLayout VerticalImages() {
         HorizontalLayout serviceImages = new HorizontalLayout();
-        H1 services = new H1("Our Services : ");
+        H1 services = new H1("Our Services ");
         services.getStyle().setColor("darkgoldenrod");
         services.getStyle().set("margin-top", "80px");
         services.getStyle().set("margin-right", "40px");

@@ -36,7 +36,7 @@ public class NewsForm extends FormLayout {
     private NoticiaService noticiaService;
 
     TextField title = new TextField("Title", "News Title");
-     DatePicker date = new DatePicker("Creation Date");
+     //DatePicker date = new DatePicker("Creation Date");
 
      TextArea cuerpo = new TextArea("News Description");
 
@@ -52,7 +52,7 @@ public class NewsForm extends FormLayout {
 
 
         add(title,
-                date,
+                //date,
                 cuerpo,
 
                 createButtonsLayout());

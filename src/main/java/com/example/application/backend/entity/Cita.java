@@ -16,7 +16,7 @@ import java.util.Objects;
 @Data
 @Entity
 @Table(name = "Citas", schema = "firstDb")
-public class Cita {
+public class  Cita {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idCita;

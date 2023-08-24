@@ -21,7 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.List;
 
 @PageTitle("Image List")
-@Route(value = "image-list" , layout = MainView.class )
+@Route(value = "services" , layout = MainView.class )
 @AnonymousAllowed
 public class ServiceListView extends Main implements HasComponents, HasStyle {
 

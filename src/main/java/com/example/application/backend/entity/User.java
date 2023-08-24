@@ -5,15 +5,13 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.Objects;
 
-@Data
+@AllArgsConstructor
 @Entity
+@Inheritance(strategy = InheritanceType.JOINED)
 public class User {
 
     private static final long serialVersionUID = 1L;
@@ -49,10 +47,11 @@ public class User {
     @Column
     private String phoneNumber;
 
+
     @ManyToOne
     @JoinColumn(name = "id_rol")
-
     private Authority authority;
+
 
     public User(){
     }

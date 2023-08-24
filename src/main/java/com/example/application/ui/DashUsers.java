@@ -1,9 +1,6 @@
 package com.example.application.ui;
 
-import com.example.application.backend.entity.Abogado;
-import com.example.application.backend.entity.Authority;
-import com.example.application.backend.entity.Case;
-import com.example.application.backend.entity.User;
+import com.example.application.backend.entity.*;
 import com.example.application.backend.service.UserService;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -15,6 +12,7 @@ import org.vaadin.crudui.crud.impl.GridCrud;
 
 import java.util.Collection;
 import java.util.List;
+
 @PageTitle("Dashboard Users")
 @AnonymousAllowed
 @Route(value = "dashUsers" , layout = MainView.class)
@@ -26,9 +24,7 @@ public class DashUsers extends VerticalLayout {
         var crud = new GridCrud<>(User.class, userService);
         crud.getGrid().setColumns("idUser", "firstName", "lastName", "username", "email", "password", "enable", "phoneNumber");
         crud.getGrid().addColumn(user -> user.getAuthority().getRol()).setHeader("rol");
-
-        crud.getCrudFormFactory().setVisibleProperties("firstName", "lastName", "username", "email", "password", "enable", "phoneNumber","authority");
-
+        crud.getCrudFormFactory().setVisibleProperties("firstName", "lastName", "username", "email", "password", "enable", "phoneNumber", "authority");
 
         crud.getCrudFormFactory().setFieldProvider("authority", entity -> {
             ComboBox<Authority> rolComboBox = new ComboBox<>();
@@ -43,8 +39,10 @@ public class DashUsers extends VerticalLayout {
             return rolComboBox;
 
         });
-add(
-        crud
-);
+        add(
+                crud
+        );
     }
+
 }
+

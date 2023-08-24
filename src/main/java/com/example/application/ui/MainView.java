@@ -4,10 +4,13 @@ import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.ComponentUtil;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.applayout.DrawerToggle;
+import com.vaadin.flow.component.charts.model.Title;
 import com.vaadin.flow.component.details.Details;
 import com.vaadin.flow.component.details.DetailsVariant;
 import com.vaadin.flow.component.html.Anchor;
+import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.html.H4;
+import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
@@ -19,6 +22,7 @@ import com.vaadin.flow.component.tabs.TabsVariant;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.RouterLink;
 import com.vaadin.flow.theme.lumo.LumoIcon;
+import com.vaadin.flow.theme.lumo.LumoUtility;
 
 import java.util.Optional;
 
@@ -60,12 +64,18 @@ public class MainView extends AppLayout {
         logoLayout.setAlignItems(FlexComponent.Alignment.CENTER);
 
 
-        // Image logoImage = new Image("images/logo_LL.jpg", "Logo");
-        // logoImage.setHeight("50px");
-        // logoImage.setWidth("150px");
-        // logoLayout.add(logoImage);
+       /*  Image logoImage = new Image("images/LogoLandL23.jpg", "Logo");
+        logoImage.setHeight("90px");
+         logoImage.setWidth("280px");
+         logoLayout.add(logoImage);
+*/
+        H2 titulo = new H2("Land Lawyers");
+        titulo.getStyle().setColor("dark Blue");
+        titulo.getStyle().set("margin-top","15px");
+        titulo.getStyle().set("margin-left","22px");
+        titulo.getStyle().set("font-weight","bold");
 
-        layout.add(logoLayout, menu);
+        layout.add(titulo,logoLayout, menu);
 
         return layout;
     }
@@ -100,14 +110,15 @@ public class MainView extends AppLayout {
 
         // Create the Details component
         Details analyticsDetails = createDetails("Dashboards",
-                createStyledAnchor("http://localhost:8080/dashAbogados", "lawyers"),
-                createStyledAnchor("http://localhost:8080/dashServices", "Services"),
-                createStyledAnchor("http://localhost:8080/rendez-vous", "Cases"),
-                createStyledAnchor("http://localhost:8080/news", "News"),
-                createStyledAnchor("http://localhost:8080/Cases", "Citas"));
+                createStyledAnchor("http://localhost:8080/Dashboard_abogados", "  Lawyers"),
+                createStyledAnchor("http://localhost:8080/dashServices", " Services"),
+                createStyledAnchor("http://localhost:8080/Cases", " Cases"),
+                createStyledAnchor("http://localhost:8080/Dashboard_News", " News"),
+                createStyledAnchor("http://localhost:8080/rendez-vous", " Citas"),
+                createStyledAnchor("http://localhost:8080/dashUsers", " Users/Clients"));
 
         // Create the Home tab
-        Tab homeTab = createTab("Home", HomeView.class, new Icon(VaadinIcon.HOME));
+        Tab homeTab = createTab("Home", HomePage.class, new Icon(VaadinIcon.HOME));
 
         // homeTab.getElement().getStyle().set("margin-bottom", "-15px");
 
@@ -124,7 +135,7 @@ public class MainView extends AppLayout {
         detailsTab.addComponentAsFirst(analyticsDetails);
 
         Tab ServicesTab = createTab(" Services", ServiceListView.class,new Icon(VaadinIcon.ACADEMY_CAP));
-        Tab EquipoTab = createTab("Our Team", ServiceListView.class, new Icon(VaadinIcon.GAVEL));
+        Tab EquipoTab = createTab("Our Team", TeamView.class, new Icon(VaadinIcon.GAVEL));
         Tab CitaTab = createTab(" Book an appointment", ServiceListView.class,new Icon(VaadinIcon.CALENDAR_BRIEFCASE));
         Tab Noticia = createTab("News" , CitaView.class, new Icon(VaadinIcon.NEWSPAPER));
         Tab ContactTab = createTab("Contact Us" , CitaView.class, new Icon(VaadinIcon.CHAT));
@@ -165,7 +176,14 @@ public class MainView extends AppLayout {
 
         // Have the drawer toggle button on the left
         layout.add(new DrawerToggle());
-
+/*
+        Image logoHeader = new Image("images/LogoLandL23.jpg","logo header");
+        logoHeader.setHeight("60px");
+        logoHeader.setWidth("90px");
+        logoHeader.getStyle().setOpacity("0.9");
+        logoHeader.getStyle().set("margin-left","900px");
+ logoHeader.addClassNames(LumoUtility.AlignItems.END);
+*/
         // Placeholder for the title of the current view.
         viewTitle = new H4();
         layout.add(viewTitle);

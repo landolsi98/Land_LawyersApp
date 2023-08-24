@@ -28,6 +28,7 @@ public class AbogadoService implements CrudListener<Abogado> {
         return abogadoRepository.save(abogado);
     }
 
+
     @Override
     public Abogado update(Abogado abogado) {
         return abogadoRepository.save(abogado);

@@ -1,7 +1,8 @@
-package com.example.application.ui;
+package com.example.application.ui.News;
 
 import com.example.application.backend.entity.Noticia;
 import com.example.application.backend.service.NoticiaService;
+import com.example.application.ui.MainView;
 import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.html.*;
 import com.vaadin.flow.component.icon.Icon;
@@ -13,6 +14,7 @@ import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.StreamResource;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
 import com.vaadin.flow.theme.lumo.LumoUtility;
+import jakarta.annotation.security.RolesAllowed;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.ByteArrayInputStream;
@@ -24,13 +26,13 @@ import java.nio.file.Paths;
 import java.util.Base64;
 import java.util.Collection;
 import java.util.List;
-@AnonymousAllowed
 @PageTitle("Newspage")
-@Route(value = "image-view" , layout = MainView.class)
-public class ImageView extends VerticalLayout {
+@Route(value = "news" , layout = MainView.class)
+@AnonymousAllowed
+public class NewsView extends VerticalLayout {
 
     private NoticiaService noticiaService;
-    public ImageView(NoticiaService noticiaService) {
+    public NewsView(NoticiaService noticiaService) {
 
         this.noticiaService = noticiaService;
         //  the background image component

@@ -1,4 +1,4 @@
-package com.example.application.ui;
+package com.example.application.ui.Lawyers;
 
 import com.example.application.backend.entity.Abogado;
 import com.example.application.backend.entity.Avocat;
@@ -7,6 +7,7 @@ import com.example.application.backend.service.AbogadoService;
 import com.example.application.backend.service.AvocatService;
 import com.example.application.backend.service.LawyerService;
 import com.example.application.backend.service.UserService;
+import com.example.application.ui.MainView;
 import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.html.*;
 import com.vaadin.flow.component.icon.Icon;
@@ -18,6 +19,9 @@ import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.StreamResource;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
 import com.vaadin.flow.theme.lumo.LumoUtility;
+import jakarta.annotation.security.RolesAllowed;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 
 import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
@@ -25,9 +29,9 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
+@AnonymousAllowed
 @PageTitle("Team List")
 @Route(value = "team",layout = MainView.class)
-@AnonymousAllowed
 public class TeamView extends VerticalLayout {
 
    private final  UserService userService;

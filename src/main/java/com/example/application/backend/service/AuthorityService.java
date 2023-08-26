@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.vaadin.crudui.crud.CrudListener;
 
 import java.util.Collection;
+import java.util.Optional;
 
 @Service
 public class AuthorityService implements CrudListener<Authority> {
@@ -18,6 +19,12 @@ public class AuthorityService implements CrudListener<Authority> {
     @Override
     public Collection<Authority> findAll() {
         return authorityRepository.findAll() ;
+    }
+
+
+    Optional<Authority> findRolById(Integer idRol) {
+        return authorityRepository.findById(idRol);
+
     }
 
     @Override

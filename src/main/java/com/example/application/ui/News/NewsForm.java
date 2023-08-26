@@ -1,4 +1,4 @@
-package com.example.application.ui;
+package com.example.application.ui.News;
 
 import com.example.application.backend.entity.Noticia;
 import com.example.application.backend.service.NoticiaService;
@@ -6,7 +6,6 @@ import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.ComponentEvent;
 import com.vaadin.flow.component.ComponentEventListener;
 import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.component.textfield.TextField;

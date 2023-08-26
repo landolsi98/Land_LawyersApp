@@ -1,10 +1,13 @@
 package com.example.application;
 
+import com.example.application.ui.HomePage;
 import com.vaadin.flow.component.page.AppShellConfigurator;
 import com.vaadin.flow.theme.Theme;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.transaction.annotation.Transactional;
+
+import static javax.swing.UIManager.getUI;
 
 /**
  * The entry point of the Spring Boot application.
@@ -20,6 +23,7 @@ public class Application implements AppShellConfigurator {
 
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
+
     }
 
 }

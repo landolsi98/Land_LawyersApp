@@ -1,10 +1,8 @@
-package com.example.application.ui;
+package com.example.application.ui.Lawyers;
 
-import com.example.application.backend.entity.Abogado;
 import com.example.application.backend.entity.Avocat;
-import com.example.application.backend.service.AbogadoService;
 import com.example.application.backend.service.AvocatService;
-import com.example.application.backend.service.NoticiaService;
+import com.example.application.ui.MainView;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.confirmdialog.ConfirmDialog;

@@ -9,6 +9,7 @@ import com.vaadin.flow.component.upload.UploadI18N;
 import com.vaadin.flow.component.upload.receivers.MultiFileMemoryBuffer;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.server.auth.AnonymousAllowed;
 import jakarta.annotation.security.RolesAllowed;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.vaadin.crudui.crud.impl.GridCrud;
@@ -20,9 +21,10 @@ import java.io.InputStream;
 import java.util.Base64;
 
 
-@Route(value = "news", layout = MainView.class)
+@AnonymousAllowed
+@Route(value = "dashN", layout = MainView.class)
 @PageTitle("Land-Lawyers")
-@RolesAllowed("ADMIN")
+//@RolesAllowed({"ADMIN" , "LAWYER"})
 public class DashNoticias extends VerticalLayout {
 
     private NoticiaService noticiaService;

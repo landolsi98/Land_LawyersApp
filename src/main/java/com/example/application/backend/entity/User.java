@@ -6,6 +6,8 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.*;
+import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.lang3.RandomStringUtils;
 
 import java.util.Objects;
 
@@ -37,12 +39,11 @@ public class User {
     private String email;
 
 
-
     @Column
     private String password;
 
     @Column
-    private Boolean enable ;
+    private Boolean enable;
 
     @Column
     private String phoneNumber;
@@ -53,7 +54,7 @@ public class User {
     private Authority authority;
 
 
-    public User(){
+    public User() {
     }
 
     public Integer getIdUser() {
@@ -136,8 +137,17 @@ public class User {
         return Objects.equals(idUser, user.idUser) && Objects.equals(firstName, user.firstName) && Objects.equals(lastName, user.lastName) && Objects.equals(username, user.username) && Objects.equals(email, user.email) && Objects.equals(password, user.password) && Objects.equals(enable, user.enable) && Objects.equals(phoneNumber, user.phoneNumber) && Objects.equals(authority, user.authority);
     }
 
+
+    public User login(String username, String password) {
+        this.username = username;
+        this.password = password;
+        return null;
+    }
+
     @Override
     public int hashCode() {
         return Objects.hash(idUser, firstName, lastName, username, email, password, enable, phoneNumber, authority);
     }
+
+
 }

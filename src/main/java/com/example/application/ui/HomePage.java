@@ -1,9 +1,8 @@
 package com.example.application.ui;
 
+import com.example.application.ui.Lawyers.TeamView;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.dependency.CssImport;
-import com.vaadin.flow.component.grid.GridVariant;
 import com.vaadin.flow.component.html.*;
 import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.icon.Icon;
@@ -12,17 +11,15 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.router.RouteAlias;
 import com.vaadin.flow.router.RouterLink;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
 import com.vaadin.flow.theme.lumo.LumoUtility;
 
-import javax.swing.*;
-import java.awt.*;
-import java.util.Collection;
-
 @PageTitle("Homepage | Land Lawyers ")
 @AnonymousAllowed
 @Route(value = "inicio" , layout = MainView.class)
+@RouteAlias(value = "", layout = MainView.class)
 public class HomePage extends VerticalLayout {
 
     public HomePage() {

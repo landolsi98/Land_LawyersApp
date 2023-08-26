@@ -1,19 +1,23 @@
 package com.example.application.ui;
 
+import com.example.application.backend.entity.Authority;
+import com.example.application.backend.entity.User;
+import com.example.application.backend.service.AuthenticatedUser;
+import com.example.application.ui.Lawyers.TeamView;
+import com.example.application.ui.News.NewsView;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.ComponentUtil;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.applayout.DrawerToggle;
-import com.vaadin.flow.component.charts.model.Title;
+import com.vaadin.flow.component.avatar.Avatar;
+import com.vaadin.flow.component.contextmenu.MenuItem;
 import com.vaadin.flow.component.details.Details;
-import com.vaadin.flow.component.details.DetailsVariant;
-import com.vaadin.flow.component.html.Anchor;
-import com.vaadin.flow.component.html.H2;
-import com.vaadin.flow.component.html.H4;
-import com.vaadin.flow.component.html.Image;
+import com.vaadin.flow.component.html.*;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
+import com.vaadin.flow.component.menubar.MenuBar;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
+import com.vaadin.flow.component.orderedlayout.FlexLayout;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.tabs.Tab;
@@ -21,16 +25,24 @@ import com.vaadin.flow.component.tabs.Tabs;
 import com.vaadin.flow.component.tabs.TabsVariant;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.RouterLink;
-import com.vaadin.flow.theme.lumo.LumoIcon;
+import com.vaadin.flow.server.StreamResource;
+import com.vaadin.flow.server.auth.AccessAnnotationChecker;
+import com.vaadin.flow.server.auth.AnonymousAllowed;
 import com.vaadin.flow.theme.lumo.LumoUtility;
 
+import java.io.ByteArrayInputStream;
 import java.util.Optional;
 
+@AnonymousAllowed
 public class MainView extends AppLayout {
     private final Tabs menu;
     private H4 viewTitle;
+    private AccessAnnotationChecker accessChecker;
+    private AuthenticatedUser authenticatedUser;
 
-    public MainView() {
+    public MainView(AuthenticatedUser authenticatedUser, AccessAnnotationChecker accessAnnotationChecker) {
+        this.accessChecker = accessChecker;
+        this.authenticatedUser = authenticatedUser;
         //  drawer for the menu
         setPrimarySection(Section.DRAWER);
 
@@ -54,14 +66,13 @@ public class MainView extends AppLayout {
         layout.setMargin(false);
         layout.getThemeList().remove("spacing-s");
         layout.setAlignItems(FlexComponent.Alignment.STRETCH);
-
-
+        layout.getStyle().set("margin-bottom","150px");
 
 
         //  logo layout
         HorizontalLayout logoLayout = new HorizontalLayout();
+
         logoLayout.setId("logo");
-        logoLayout.setAlignItems(FlexComponent.Alignment.CENTER);
 
 
        /*  Image logoImage = new Image("images/LogoLandL23.jpg", "Logo");
@@ -75,7 +86,8 @@ public class MainView extends AppLayout {
         titulo.getStyle().set("margin-left","22px");
         titulo.getStyle().set("font-weight","bold");
 
-        layout.add(titulo,logoLayout, menu);
+
+        layout.add(titulo,menu);
 
         return layout;
     }
@@ -85,6 +97,7 @@ public class MainView extends AppLayout {
         details.setOpened(true);
         return details;
     }
+
 
     private VerticalLayout createContent(Anchor... anchors) {
         VerticalLayout content = new VerticalLayout();
@@ -102,61 +115,60 @@ public class MainView extends AppLayout {
 
         return anchor;
     }
+
+
     private Tabs createMenu() {
         final Tabs tabs = new Tabs();
         tabs.setOrientation(Tabs.Orientation.VERTICAL);
         tabs.addThemeVariants(TabsVariant.LUMO_MINIMAL);
         tabs.setId("tabs");
 
-        // Create the Details component
-        Details analyticsDetails = createDetails("Dashboards",
-                createStyledAnchor("http://localhost:8080/Dashboard_abogados", "  Lawyers"),
-                createStyledAnchor("http://localhost:8080/dashServices", " Services"),
-                createStyledAnchor("http://localhost:8080/Cases", " Cases"),
-                createStyledAnchor("http://localhost:8080/Dashboard_News", " News"),
-                createStyledAnchor("http://localhost:8080/rendez-vous", " Citas"),
-                createStyledAnchor("http://localhost:8080/dashUsers", " Users/Clients"));
-
-        // Create the Home tab
         Tab homeTab = createTab("Home", HomePage.class, new Icon(VaadinIcon.HOME));
 
-        // homeTab.getElement().getStyle().set("margin-bottom", "-15px");
+        Optional<User> authenticatedUserOptional = authenticatedUser.get();
 
-        /*  adding other tabs
-        Tab dashboardLawyersTab = createTab("Dashboard lawyers", DashAbogados.class);
-        Tab dashboardServicesTab = createTab("Dashboard Services", DashServices.class);
-        Tab dashboardCasesTab = createTab("Dashboard Cases", DashCases.class);
-        Tab dashboardNewsTab = createTab("Dashboard News", DashNoticias.class);
-        Tab dashboardCitasTab = createTab("Dashboard Citas", CitaView.class);
-*/
-
-        // Create a custom tab for the Details component
-        Tab detailsTab = createTab("", DashAbogados.class,new Icon(VaadinIcon.BAR_CHART_H) );
-        detailsTab.addComponentAsFirst(analyticsDetails);
-
-        Tab ServicesTab = createTab(" Services", ServiceListView.class,new Icon(VaadinIcon.ACADEMY_CAP));
-        Tab EquipoTab = createTab("Our Team", TeamView.class, new Icon(VaadinIcon.GAVEL));
-        Tab CitaTab = createTab(" Book an appointment", ServiceListView.class,new Icon(VaadinIcon.CALENDAR_BRIEFCASE));
-        Tab Noticia = createTab("News" , CitaView.class, new Icon(VaadinIcon.NEWSPAPER));
-        Tab ContactTab = createTab("Contact Us" , CitaView.class, new Icon(VaadinIcon.CHAT));
+        if (authenticatedUserOptional.isPresent()) {
+            User authenticatedUser = authenticatedUserOptional.get();
+            Authority authority = authenticatedUser.getAuthority();
+            Tab ServicesTab = createTab(" Services", ServiceListView.class, new Icon(VaadinIcon.ACADEMY_CAP));
+            Tab EquipoTab = createTab("Our Team", TeamView.class, new Icon(VaadinIcon.GAVEL));
+            Tab CitaTab = createTab(" Book an appointment", ServiceListView.class, new Icon(VaadinIcon.CALENDAR_BRIEFCASE));
+            Tab Noticia = createTab("News", NewsView.class, new Icon(VaadinIcon.NEWSPAPER));
+            Tab ContactTab = createTab("Contact Us", CitaView.class, new Icon(VaadinIcon.CHAT));
 
 
+            // Add tabs in the desired order
+            tabs.add(homeTab, ServicesTab, EquipoTab, CitaTab, Noticia, ContactTab);
 
-        // Add tabs in the desired order
-        tabs.add(homeTab,ServicesTab,EquipoTab,CitaTab,Noticia,ContactTab,detailsTab);
+            if (authority != null && "ADMIN".equals(authority.getRol())) {
+                // Add the "Details" component only for the admin user
+                Details analyticsDetails = createDetails("Dashboards",
+                        createStyledAnchor("http://localhost:8080/Dashboard_abogados", "  Lawyers"),
+                        createStyledAnchor("http://localhost:8080/dashServices", " Services"),
+                        createStyledAnchor("http://localhost:8080/Cases", " Cases"),
+                        createStyledAnchor("http://localhost:8080/Dashboard_News", " News"),
+                        createStyledAnchor("http://localhost:8080/rendez-vous", " Citas"),
+                        createStyledAnchor("http://localhost:8080/dashUsers", " Users/Clients"));
 
-        return tabs;
-    }
+                Tab analyticsTab = createTab("", DashAbogados.class, new Icon(VaadinIcon.BAR_CHART_H));
+                analyticsTab.addComponentAsFirst(analyticsDetails);
+                tabs.add(analyticsTab);
 
+            } else if ( "LAWYER".equals(authority.getRol())) {
+                // Add the "Analytics" details without the "Lawyers" link/tab for lawyers
+                Details analyticsDetails = createDetails("Dashboards",
+                        createStyledAnchor("http://localhost:8080/Cases", " Cases"),
+                        createStyledAnchor("http://localhost:8080/rendez-vous", " Citas"),
+                        createStyledAnchor("http://localhost:8080/dashUsers", " Users/Clients"));
 
-    private static Tab createTab(String text,
-                                 Class<? extends Component> navigationTarget,Icon icon) {
-        final Tab tab = new Tab();
-        tab.add(icon, new RouterLink(text, navigationTarget));
-        ComponentUtil.setData(tab, Class.class, navigationTarget);
-        return tab;
-    }
+                Tab analyticsTab = createTab("", DashAbogados.class, new Icon(VaadinIcon.BAR_CHART_H));
+                analyticsTab.addComponentAsFirst(analyticsDetails);
+                tabs.add(analyticsTab);
+            }
+        }
+                return tabs;
 
+            }
 
     private Component createHeaderContent() {
         HorizontalLayout layout = new HorizontalLayout();
@@ -176,24 +188,73 @@ public class MainView extends AppLayout {
 
         // Have the drawer toggle button on the left
         layout.add(new DrawerToggle());
-/*
-        Image logoHeader = new Image("images/LogoLandL23.jpg","logo header");
-        logoHeader.setHeight("60px");
-        logoHeader.setWidth("90px");
-        logoHeader.getStyle().setOpacity("0.9");
-        logoHeader.getStyle().set("margin-left","900px");
- logoHeader.addClassNames(LumoUtility.AlignItems.END);
-*/
-        // Placeholder for the title of the current view.
+        //  logo layout
         viewTitle = new H4();
         layout.add(viewTitle);
-
-
-        // A user icon
-        //layout.add(new Image("/logo_LL.jpg", "Avatar"));
+        var header = new HorizontalLayout( createAvatar() );
+        header.setDefaultVerticalComponentAlignment(FlexComponent.Alignment.CENTER);
+        //header.expand(createAvatar());
+        // Use a spacer to push the avatar to the right end
+header.getStyle().set("margin-left","auto");
+        // Add the avatar
+        layout.add(header);
 
         return layout;
     }
+
+    private Footer createAvatar() {
+        Footer layout = new Footer();
+        int colorIndex = 3;
+
+        Optional<User> maybeUser = authenticatedUser.get();
+        if (maybeUser.isPresent()) {
+            User user = maybeUser.get();
+            String name = user.getFirstName() + " " + user.getLastName();
+
+            Avatar avatar = new Avatar(name);
+
+            avatar.setThemeName("small");
+            avatar.getElement().setAttribute("tabindex", "-1");
+            avatar.setColorIndex(colorIndex);
+
+            MenuBar userMenu = new MenuBar();
+            userMenu.setThemeName("tertiary-inline contrast");
+
+            MenuItem userName = userMenu.addItem("");
+            Div div = new Div();
+            div.add(avatar);
+            div.add(user.getUsername());
+            div.add(new Icon("lumo", "dropdown"));
+            div.getElement().getStyle().set("display", "flex");
+            div.getElement().getStyle().set("align-items", "center");
+
+            div.getElement().getStyle().set("gap", "var(--lumo-space-s)");
+            userName.add(div);
+
+            userName.getSubMenu().addItem("Sign out", e -> {
+                authenticatedUser.logout();
+            });
+
+
+            layout.add(userMenu);
+        } else {
+            Anchor loginLink = new Anchor("login", "Sign in");
+            layout.add(loginLink);
+        }
+
+        return layout;
+    }
+
+
+
+    private static Tab createTab(String text,
+                                 Class<? extends Component> navigationTarget,Icon icon) {
+        final Tab tab = new Tab();
+        tab.add(icon, new RouterLink(text, navigationTarget));
+        ComponentUtil.setData(tab, Class.class, navigationTarget);
+        return tab;
+    }
+
 
     @Override
     protected void afterNavigation() {

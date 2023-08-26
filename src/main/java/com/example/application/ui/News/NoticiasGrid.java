@@ -1,10 +1,10 @@
-package com.example.application.ui;
+package com.example.application.ui.News;
 
-import java.util.Collection;
 import java.util.Base64;
 
 import com.example.application.backend.entity.Noticia;
 import com.example.application.backend.service.NoticiaService;
+import com.example.application.ui.MainView;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.confirmdialog.ConfirmDialog;
@@ -19,9 +19,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.data.renderer.LitRenderer;
 import com.vaadin.flow.router.Route;
-import org.springframework.stereotype.Component;
+
 @UIScope
 @PageTitle("News LandLawyers")
 @AnonymousAllowed

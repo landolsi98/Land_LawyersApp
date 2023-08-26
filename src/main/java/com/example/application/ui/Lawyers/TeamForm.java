@@ -1,12 +1,8 @@
-package com.example.application.ui;
+package com.example.application.ui.Lawyers;
 
-import com.example.application.backend.entity.Abogado;
 import com.example.application.backend.entity.Authority;
 import com.example.application.backend.entity.Avocat;
-import com.example.application.backend.entity.Noticia;
-import com.example.application.backend.service.AbogadoService;
 import com.example.application.backend.service.LawyerService;
-import com.example.application.backend.service.NoticiaService;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.ComponentEvent;
 import com.vaadin.flow.component.ComponentEventListener;

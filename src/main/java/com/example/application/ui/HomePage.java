@@ -93,8 +93,10 @@ public class HomePage extends VerticalLayout {
         button.getStyle().set("color", "rgba(0, 19, 86, 1)");
         button.getStyle().set("background-color", "grey");
 
+        RouterLink link = new RouterLink("", CitaForm.class);
+        link.add(button);
 
-        textOverlay.add(textDiv, button);
+        textOverlay.add(textDiv, link);
 
         return textOverlay;
     }

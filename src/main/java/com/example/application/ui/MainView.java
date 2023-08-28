@@ -126,7 +126,7 @@ public class MainView extends AppLayout {
 
             Tab ServicesTab = createTab(" Services", ServiceListView.class, new Icon(VaadinIcon.ACADEMY_CAP));
             Tab EquipoTab = createTab("Our Team", TeamView.class, new Icon(VaadinIcon.GAVEL));
-            Tab CitaTab = createTab(" Book an appointment", ServiceListView.class, new Icon(VaadinIcon.CALENDAR_BRIEFCASE));
+            Tab CitaTab = createTab(" Book an appointment", CitaForm.class, new Icon(VaadinIcon.CALENDAR_BRIEFCASE));
             Tab Noticia = createTab("News", NewsView.class, new Icon(VaadinIcon.NEWSPAPER));
             Tab ContactTab = createTab("Contact Us", CitaView.class, new Icon(VaadinIcon.CHAT));
 

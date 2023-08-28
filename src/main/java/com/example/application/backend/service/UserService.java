@@ -49,10 +49,15 @@ private final LawyerRepository lawyerRepository;
     }
     @Transactional
     public User add(User user) {
+        if(user.getPassword() != null) {
+
         String encodedPassword = passwordEncoder.encode(user.getPassword());
         user.setPassword(encodedPassword);
-        return userRepository.save(user);
     }
+        return userRepository.save(user);
+
+    }
+
 
     public User update(User user) {
         return userRepository.save(user);

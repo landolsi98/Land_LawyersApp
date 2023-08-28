@@ -1,8 +1,10 @@
 package com.example.application.backend.service;
 
 import com.example.application.backend.entity.Abogado;
+import com.example.application.backend.entity.Avocat;
 import com.example.application.backend.entity.Cita;
 import com.example.application.backend.repository.AbogadoRepository;
+import com.example.application.backend.repository.AvocatRepository;
 import com.example.application.backend.repository.CitaRepository;
 import org.springframework.stereotype.Service;
 import org.vaadin.crudui.crud.CrudListener;
@@ -13,9 +15,9 @@ import java.util.List;
 @Service
 public class CitaService implements CrudListener<Cita> {
 
-    private final AbogadoRepository abogadoRepository;
+    private final AvocatRepository abogadoRepository;
 private final CitaRepository citaRepository;
-    public CitaService(AbogadoRepository repository, CitaRepository citaRepository) {
+    public CitaService(AvocatRepository repository, CitaRepository citaRepository) {
         this.abogadoRepository = repository;
         this.citaRepository = citaRepository;
     }
@@ -41,8 +43,10 @@ private final CitaRepository citaRepository;
     public void delete(Cita cita) {
         citaRepository.delete(cita);
     }
-
-    public List<Abogado> findAllAbogados() {
+/*
+    public List<Avocat> findAllAbogados() {
         return abogadoRepository.findAll();
     }
+    */
+
 }

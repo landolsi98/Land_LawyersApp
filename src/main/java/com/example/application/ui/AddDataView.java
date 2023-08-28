@@ -71,7 +71,7 @@ public class AddDataView extends VerticalLayout {
             newUser.setUsername(username.getValue());
             newUser.setEmail(email.getValue());
             newUser.setPassword(password.getValue());
-            newUser.setPhoneNumber(phoneNumber.getValue());
+            newUser.setPhoneNumber(Double.valueOf(Integer.valueOf(phoneNumber.getValue())));
 
             if (binder.writeBeanIfValid(newUser)) {
 

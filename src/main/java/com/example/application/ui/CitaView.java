@@ -1,6 +1,7 @@
 package com.example.application.ui;
 
 import com.example.application.backend.entity.Abogado;
+import com.example.application.backend.entity.Avocat;
 import com.example.application.backend.entity.Cita;
 import com.example.application.backend.service.CitaService;
 import com.vaadin.flow.component.combobox.ComboBox;
@@ -24,10 +25,10 @@ public class CitaView extends VerticalLayout {
 
         var crud = new GridCrud<>(Cita.class, service);
         crud.getGrid().setColumns("idCita", "object", "date", "time");
-        crud.getGrid().addColumn(cita -> cita.getAbogado().getFirstName()).setHeader("Abogado");
+       // crud.getGrid().addColumn(cita -> cita.getAbogado().getFirstName()).setHeader("Abogado");
 
         crud.getCrudFormFactory().setUseBeanValidation(true); // Activate Bean validations
-        crud.getCrudFormFactory().setVisibleProperties("object", "date", "time","abogado");
+        crud.getCrudFormFactory().setVisibleProperties("object", "date", "time");
 
         crud.getCrudFormFactory().setFieldProvider("time", entity -> {
             TimePicker timePicker = new TimePicker();
@@ -39,14 +40,14 @@ public class CitaView extends VerticalLayout {
 
             return timePicker;
         });
-
+/*
         crud.getCrudFormFactory().setFieldProvider("abogado", entity -> {
-            ComboBox<Abogado> abogadoComboBox = new ComboBox<>();
+            ComboBox<Avocat> abogadoComboBox = new ComboBox<>();
             abogadoComboBox.setLabel("Select Abogado");
-            List<Abogado> abogadoList = service.findAllAbogados();
+            List<Avocat> abogadoList = service.findAllAbogados();
 
             abogadoComboBox.setItems(abogadoList);
-            abogadoComboBox.setItemLabelGenerator(Abogado::getFirstName);
+            abogadoComboBox.setItemLabelGenerator(Avocat::getFirstName);
 
             Binder<Cita> binder = new Binder<>(Cita.class);
             binder.forField(abogadoComboBox)
@@ -55,7 +56,7 @@ public class CitaView extends VerticalLayout {
             return abogadoComboBox;
         });
 
-
+*/
         add(
                 new H1("Dashboard Cita"),
                 crud

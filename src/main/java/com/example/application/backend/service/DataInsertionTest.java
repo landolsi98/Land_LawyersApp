@@ -26,7 +26,6 @@ public class DataInsertionTest {
         lawyer.setLastName("Smith");
         lawyer.setPassword("xxxx");
         lawyer.setUsername("zab");
-        lawyer.setPhoneNumber("21997664");
         lawyer.setEnable(true);
         lawyer.setDescription("description");
         lawyer.setPosition("ceo");

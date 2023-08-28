@@ -3,11 +3,7 @@ package com.example.application.backend.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 import lombok.*;
-import org.apache.commons.codec.digest.DigestUtils;
-import org.apache.commons.lang3.RandomStringUtils;
 
 import java.util.Objects;
 
@@ -46,7 +42,7 @@ public class User {
     private Boolean enable;
 
     @Column
-    private String phoneNumber;
+    private Double phoneNumber;
 
 
     @ManyToOne
@@ -113,11 +109,11 @@ public class User {
         this.enable = enable;
     }
 
-    public String getPhoneNumber() {
+    public Double getPhoneNumber() {
         return phoneNumber;
     }
 
-    public void setPhoneNumber(String phoneNumber) {
+    public void setPhoneNumber(Double phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
 

@@ -279,7 +279,7 @@ public class HomePage extends VerticalLayout {
         Anchor link1 = createImageLink("images/lawV1.jpg", "verticalImage1", "Civil Rights");
         Anchor link2 = createImageLink("images/lawV2.jpg", "verticalImage2", "Buisness Law");
         Anchor link3 = createImageLink("images/lawV3.jpg", "verticalImage3", "Labour Law");
-        Anchor link4 = createImageLink("images/lawV4.jpeg", "verticalImage4", "Private Equity");
+        Anchor link4 = createImageLink("images/lawV4.jpg", "verticalImage4", "Private Equity");
 
         serviceImages.add(services, link1, link2, link3, link4);
 

@@ -1,4 +1,4 @@
-package com.example.application.backend.service;
+package com.example.application.security;
 
 import com.example.application.backend.entity.User;
 import com.example.application.backend.repository.UserRepository;

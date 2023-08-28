@@ -2,7 +2,7 @@ package com.example.application.ui;
 
 import com.example.application.backend.entity.Authority;
 import com.example.application.backend.entity.User;
-import com.example.application.backend.service.AuthenticatedUser;
+import com.example.application.security.AuthenticatedUser;
 import com.example.application.ui.Lawyers.TeamView;
 import com.example.application.ui.News.NewsView;
 import com.vaadin.flow.component.Component;
@@ -10,6 +10,8 @@ import com.vaadin.flow.component.ComponentUtil;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.applayout.DrawerToggle;
 import com.vaadin.flow.component.avatar.Avatar;
+import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.contextmenu.MenuItem;
 import com.vaadin.flow.component.details.Details;
 import com.vaadin.flow.component.html.*;
@@ -17,7 +19,6 @@ import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.menubar.MenuBar;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
-import com.vaadin.flow.component.orderedlayout.FlexLayout;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.tabs.Tab;
@@ -25,12 +26,9 @@ import com.vaadin.flow.component.tabs.Tabs;
 import com.vaadin.flow.component.tabs.TabsVariant;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.RouterLink;
-import com.vaadin.flow.server.StreamResource;
 import com.vaadin.flow.server.auth.AccessAnnotationChecker;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
-import com.vaadin.flow.theme.lumo.LumoUtility;
 
-import java.io.ByteArrayInputStream;
 import java.util.Optional;
 
 @AnonymousAllowed
@@ -125,20 +123,21 @@ public class MainView extends AppLayout {
 
         Tab homeTab = createTab("Home", HomePage.class, new Icon(VaadinIcon.HOME));
 
-        Optional<User> authenticatedUserOptional = authenticatedUser.get();
 
-        if (authenticatedUserOptional.isPresent()) {
-            User authenticatedUser = authenticatedUserOptional.get();
-            Authority authority = authenticatedUser.getAuthority();
             Tab ServicesTab = createTab(" Services", ServiceListView.class, new Icon(VaadinIcon.ACADEMY_CAP));
             Tab EquipoTab = createTab("Our Team", TeamView.class, new Icon(VaadinIcon.GAVEL));
             Tab CitaTab = createTab(" Book an appointment", ServiceListView.class, new Icon(VaadinIcon.CALENDAR_BRIEFCASE));
             Tab Noticia = createTab("News", NewsView.class, new Icon(VaadinIcon.NEWSPAPER));
             Tab ContactTab = createTab("Contact Us", CitaView.class, new Icon(VaadinIcon.CHAT));
 
-
             // Add tabs in the desired order
             tabs.add(homeTab, ServicesTab, EquipoTab, CitaTab, Noticia, ContactTab);
+
+        Optional<User> authenticatedUserOptional = authenticatedUser.get();
+
+        if (authenticatedUserOptional.isPresent()) {
+            User authenticatedUser = authenticatedUserOptional.get();
+            Authority authority = authenticatedUser.getAuthority();
 
             if (authority != null && "ADMIN".equals(authority.getRol())) {
                 // Add the "Details" component only for the admin user
@@ -233,14 +232,28 @@ header.getStyle().set("margin-left","auto");
 
             userName.getSubMenu().addItem("Sign out", e -> {
                 authenticatedUser.logout();
+
             });
 
 
             layout.add(userMenu);
         } else {
-            Anchor loginLink = new Anchor("login", "Sign in");
-            layout.add(loginLink);
+            Button clientButton = new Button("Client Access", new Icon(VaadinIcon.USER), e -> getUI().ifPresent(ui -> ui.navigate("login")));
+            clientButton.getStyle().set("background-color","darkgoldenrod");
+            clientButton.getStyle().set("margin","8px");
+            clientButton.getStyle().set("color","whitesmoke");
+            clientButton.addThemeVariants(ButtonVariant.LUMO_SMALL);
+
+            Button lawyerButton = new Button("Lawyer Access", new Icon(VaadinIcon.ACADEMY_CAP), e -> getUI().ifPresent(ui -> ui.navigate("login-lawyer")));
+            lawyerButton.getStyle().set("background-color","darkgrey");
+            lawyerButton.getStyle().set("margin-right","5px");
+            lawyerButton.getStyle().set("color","whitesmoke");
+            lawyerButton.addThemeVariants(ButtonVariant.LUMO_SMALL);
+
+
+            layout.add(clientButton, lawyerButton);
         }
+
 
         return layout;
     }

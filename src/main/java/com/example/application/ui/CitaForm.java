@@ -1,5 +1,7 @@
 package com.example.application.ui;
 
+import com.example.application.ui.News.ReportView;
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.example.application.backend.entity.*;
@@ -30,6 +32,7 @@ import com.vaadin.flow.server.auth.AnonymousAllowed;
 import com.vaadin.flow.theme.lumo.LumoUtility;
 
 import java.time.Duration;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Collection;
 import java.util.List;
@@ -105,37 +108,55 @@ title.getStyle().set("text-align","center");
 
 
         saveButton.addClickListener(event -> {
-                    saveButton.setEnabled(false);
-
-            Notification notification = Notification
-                    .show("Application submitted!");
-            notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
-            notification.setPosition(Notification.Position.MIDDLE);
-
-            notification
-                    .addDetachListener(detachEvent -> saveButton.setEnabled(true));
-
-            User newUser = new User();
-            newUser.setFirstName(firstName.getValue());
-            newUser.setLastName(lastName.getValue());
-            newUser.setEmail(email.getValue());
-            newUser.setPhoneNumber(phoneNumber.getValue());
-            Authority authority  = new Authority();
-            authority.setIdRol(4);
-            newUser.setAuthority(authority);
-
-            userService.add(newUser);
+                    saveButton.setEnabled(true);
 
 
+                    LocalDate dateCita = date.getValue();
+                    LocalTime timeCita = time.getValue();
+                    Cita existingAppointment = citaService.findCitaByDateAndTime(dateCita, timeCita);
 
 
-                    Cita newCita = new Cita();
-                    newCita.setDate(date.getValue());
-                    newCita.setTime(time.getValue());
-                    newCita.setObject(object.getValue());
+                    if(existingAppointment != null ) {
+                        Notification notification2 = new Notification(
+                                "No available appointment in this time",
+                                5000,
+                                Notification.Position.BOTTOM_CENTER
+                        );
+                        notification2.addThemeVariants(NotificationVariant.LUMO_ERROR);
+                        notification2.open();
 
-                    citaService.add(newCita);
+                    } else {
+                        String userEmail = email.getValue();
+                        User existingUser = userService.findUserByEmail(userEmail);
 
+
+                        if (existingUser == null) {
+                            User newUser = new User();
+                            newUser.setFirstName(firstName.getValue());
+                            newUser.setLastName(lastName.getValue());
+                            newUser.setEmail(userEmail);
+                            newUser.setPhoneNumber(phoneNumber.getValue());
+                            Authority authority = new Authority();
+                            authority.setIdRol(4);
+                            newUser.setAuthority(authority);
+
+                            existingUser = userService.add(newUser);
+                        }
+                        Cita newCita = new Cita();
+                        newCita.setDate(date.getValue());
+                        newCita.setTime(time.getValue());
+                        newCita.setObject(object.getValue());
+                        newCita.setUser(existingUser);
+
+                        citaService.add(newCita);
+
+                        Notification notification = Notification
+                                .show("Appointment Booked successfully !");
+                        notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
+                        notification.setPosition(Notification.Position.BOTTOM_CENTER);
+                        UI.getCurrent().navigate("cita_confirmation?newCita=" + newCita.getIdCita());
+
+                    }
                 }
                 );
 

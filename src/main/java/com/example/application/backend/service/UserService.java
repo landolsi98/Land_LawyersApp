@@ -39,6 +39,9 @@ private final LawyerRepository lawyerRepository;
         return userRepository.findByUsername(username);
     }
 
+    public User findUserByEmail(String email){
+        return userRepository.findByEmail(email);
+    }
     /*
     public Collection <Lawyer> findLawyers(){
         return lawyerRepository.findAll();

@@ -146,7 +146,7 @@ public class MainView extends AppLayout {
                         createStyledAnchor("http://localhost:8080/dashServices", " Services"),
                         createStyledAnchor("http://localhost:8080/Cases", " Cases"),
                         createStyledAnchor("http://localhost:8080/Dashboard_News", " News"),
-                        createStyledAnchor("http://localhost:8080/rendez-vous", " Citas"),
+                        createStyledAnchor("http://localhost:8080/dashboard-citas", " Citas"),
                         createStyledAnchor("http://localhost:8080/dashUsers", " Users/Clients"));
 
                 Tab analyticsTab = createTab("", DashAbogados.class, new Icon(VaadinIcon.BAR_CHART_H));

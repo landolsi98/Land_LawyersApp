@@ -16,7 +16,7 @@ import java.util.Objects;
 public class  Cita {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer idCita;
+    private Long idCita;
 
 
     @Column
@@ -28,18 +28,25 @@ public class  Cita {
 
     @Column
     private LocalTime time;
-/*
-    @NotNull
-    @ManyToOne
-    @JoinColumn(name = "id_abogado")
 
-    private Avocat abogado;
-*/
-    public Integer getIdCita() {
+    @NotNull
+    @ManyToOne(fetch = FetchType.EAGER, optional = true)
+    @JoinColumn(name = "id_user", nullable = false)
+    private User client;
+
+
+    /*
+        @NotNull
+        @ManyToOne
+        @JoinColumn(name = "id_abogado")
+
+        private Avocat abogado;
+    */
+    public Long getIdCita() {
         return idCita;
     }
 
-    public void IdCita(Integer idCita) {
+    public void IdCita(Long idCita) {
         this.idCita = idCita;
     }
 
@@ -66,25 +73,36 @@ public class  Cita {
     public void setTime(LocalTime time) {
         this.time = time;
     }
-/*
-    public Avocat getAbogado() {
-        return abogado;
+
+    public User getUser() {
+        return client;
     }
 
-    public void setAbogado(Avocat abogado) {
-        this.abogado = abogado;
+    public void setUser(User user) {
+        this.client = user;
     }
-*/
+
+    /*
+        public Avocat getAbogado() {
+            return abogado;
+        }
+
+        public void setAbogado(Avocat abogado) {
+            this.abogado = abogado;
+        }
+
+    */
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Cita cita = (Cita) o;
-        return Objects.equals(idCita, cita.idCita) && Objects.equals(object, cita.object) && Objects.equals(date, cita.date) && Objects.equals(time, cita.time);
+        return Objects.equals(idCita, cita.idCita) && Objects.equals(object, cita.object) && Objects.equals(date, cita.date) && Objects.equals(time, cita.time) && Objects.equals(client, cita.client);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(idCita, object, date, time);
+        return Objects.hash(idCita, object, date, time, client);
     }
 }

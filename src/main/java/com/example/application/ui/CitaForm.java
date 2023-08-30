@@ -1,6 +1,4 @@
 package com.example.application.ui;
-
-import com.example.application.ui.News.ReportView;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
@@ -8,18 +6,13 @@ import com.example.application.backend.entity.*;
 import com.example.application.backend.service.CitaService;
 import com.example.application.backend.service.UserService;
 import com.vaadin.flow.component.Composite;
-
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.Div;
-import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.notification.NotificationVariant;
-import com.vaadin.flow.component.orderedlayout.FlexComponent;
-import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
-import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.EmailField;
 import com.vaadin.flow.component.textfield.NumberField;
 import com.vaadin.flow.component.textfield.TextArea;
@@ -30,12 +23,11 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
 import com.vaadin.flow.theme.lumo.LumoUtility;
-
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.Collection;
-import java.util.List;
+import java.time.ZoneId;
+
 
 
 @PageTitle("Appointment Land Lawyers")
@@ -66,11 +58,11 @@ public class CitaForm extends Composite<Div> {
         backgroundImage.getElement().getStyle().set("border", "none");
         backgroundImage.addClassName(LumoUtility.Margin.NONE);
 
-H3 title = new H3("Fill in the Form to Request an Appointment with the Experts of law");
-title.getStyle().set("text-align","center");
- title.getStyle().set("margin-bottom","10px");
+        H3 title = new H3("Fill in the Form to Request an Appointment with the Experts of law");
+        title.getStyle().set("text-align","center");
+        title.getStyle().set("margin-bottom","10px");
 
-               content.add(backgroundImage, title);
+        content.add(backgroundImage, title);
 
         FormLayout formLayout = new FormLayout();
 
@@ -84,10 +76,13 @@ title.getStyle().set("text-align","center");
 
         TextArea object = new TextArea("object");
 
-
         DatePicker date = new DatePicker("Appointment date");
-        date.setHelperText("Mondays – Fridays only");
+        LocalDate now = LocalDate.now(ZoneId.systemDefault());
 
+        date.setMin(now);
+        date.setMax(now.plusDays(120));
+        date.setHelperText("Must be within 60 days from today");
+        date.setHelperText("Mondays – Fridays only");
         Binder<Cita> binder = new Binder<>(Cita.class);
         binder.forField(date).withValidator(localDate -> {
             int dayOfWeek = localDate.getDayOfWeek().getValue();
@@ -106,6 +101,13 @@ title.getStyle().set("text-align","center");
         time.setMin(LocalTime.of(8, 0));
         time.setMax(LocalTime.of(16, 0));
 
+        binder.forField(time).withValidator(startTime -> {
+            return !(LocalTime.of(8, 0).isAfter(startTime)
+                    || (LocalTime.of(12, 0).isBefore(startTime)
+                    && LocalTime.of(13, 0).isAfter(startTime))
+                    || LocalTime.of(16, 0).isBefore(startTime));
+        }, "The selected time is not available, please select a working time").bind(Cita::getTime,
+                Cita::setTime);
 
         saveButton.addClickListener(event -> {
                     saveButton.setEnabled(true);
@@ -160,12 +162,10 @@ title.getStyle().set("text-align","center");
                 }
                 );
 
-
         formLayout.add(firstName,lastName,email,phoneNumber,object,time,date,saveButton);
         formLayout.addClassNames(LumoUtility.Margin.Horizontal.AUTO, LumoUtility.MaxWidth.SCREEN_LARGE, LumoUtility.Margin.Bottom.XLARGE);
 
         content.add(formLayout);
-
 
     }
 }

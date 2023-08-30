@@ -129,15 +129,18 @@ public class MainView extends AppLayout {
             Tab CitaTab = createTab(" Book an appointment", CitaForm.class, new Icon(VaadinIcon.CALENDAR_BRIEFCASE));
             Tab Noticia = createTab("News", NewsView.class, new Icon(VaadinIcon.NEWSPAPER));
             Tab ContactTab = createTab("Contact Us", CitaView.class, new Icon(VaadinIcon.CHAT));
-
             // Add tabs in the desired order
             tabs.add(homeTab, ServicesTab, EquipoTab, CitaTab, Noticia, ContactTab);
-
         Optional<User> authenticatedUserOptional = authenticatedUser.get();
 
         if (authenticatedUserOptional.isPresent()) {
             User authenticatedUser = authenticatedUserOptional.get();
             Authority authority = authenticatedUser.getAuthority();
+            if(authority != null && "CLIENT".equals(authority.getRol())) {
+                Tab CaseTracker = createTab("Tracking Case", CaseTrackerView.class, new Icon(VaadinIcon.BAR_CHART_H));
+tabs.add(CaseTracker);
+}
+
 
             if (authority != null && "ADMIN".equals(authority.getRol())) {
                 // Add the "Details" component only for the admin user

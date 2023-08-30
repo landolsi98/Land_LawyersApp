@@ -103,8 +103,10 @@ public class NewsView extends VerticalLayout {
             horizontalLayout.getStyle().setMargin("20px");
             horizontalLayout.getStyle().set("margin-bottom","-8px");
             add(horizontalLayout);
+
         }
     }
+
 
 
 

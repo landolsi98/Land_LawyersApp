@@ -1,12 +1,11 @@
 package com.example.application.ui;
 
-import com.example.application.backend.entity.Abogado;
-import com.example.application.backend.entity.Case;
-import com.example.application.backend.entity.Service;
-import com.example.application.backend.entity.User;
+import com.example.application.backend.entity.*;
 import com.example.application.backend.service.CaseService;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.html.H1;
+import com.vaadin.flow.component.html.Span;
+import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.router.PageTitle;
@@ -15,6 +14,7 @@ import com.vaadin.flow.server.auth.AnonymousAllowed;
 import org.vaadin.crudui.crud.impl.GridCrud;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @PageTitle("Dashboard Cases")
 @AnonymousAllowed
@@ -26,24 +26,24 @@ public class DashCases extends VerticalLayout {
 
 var crud = new GridCrud<>(Case.class, service);
 crud.getGrid().setColumns("idCase","title", "description" , "state","creationDate");
-crud.getGrid().addColumn(caso -> caso.getAbogado().getFirstName()).setHeader("Abogado Cargado");
+crud.getGrid().addColumn(avocat -> avocat.getAvocat().getFirstName()).setHeader("Charged Lawyer");
 crud.getGrid().addColumn(serv -> serv.getService().getService()).setHeader("Service");
 crud.getGrid().addColumn(user -> user.getUser().getFirstName()).setHeader("Client");
 
 
 crud.getCrudFormFactory().setUseBeanValidation(true); // Activate Bean validations
-crud.getCrudFormFactory().setVisibleProperties("title", "description" , "state","creation_date","abogado","service","client");
+crud.getCrudFormFactory().setVisibleProperties("title", "description" , "state","creation_date","avocat","service","client");
 
-crud.getCrudFormFactory().setFieldProvider("abogado", entity -> {
-            ComboBox<Abogado> abogadoComboBox = new ComboBox<>();
-            List<Abogado> abogadoList = service.findAllAbogados();
+crud.getCrudFormFactory().setFieldProvider("avocat", entity -> {
+            ComboBox<Avocat> abogadoComboBox = new ComboBox<>();
+            List<Avocat> abogadoList = service.findAllAbogados();
 
             abogadoComboBox.setItems(abogadoList);
-            abogadoComboBox.setItemLabelGenerator(Abogado ::getFirstName);
+            abogadoComboBox.setItemLabelGenerator(Avocat ::getFirstName);
 
             Binder<Case> binder = new Binder<>(Case.class);
             binder.forField(abogadoComboBox)
-                    .bind(Case::getAbogado, Case::setAbogado);
+                    .bind(Case::getAvocat, Case::setAvocat);
             return abogadoComboBox;
 
 });
@@ -63,9 +63,13 @@ crud.getCrudFormFactory().setFieldProvider("abogado", entity -> {
 
         crud.getCrudFormFactory().setFieldProvider("client", entity -> {
             ComboBox<User> userComboBox = new ComboBox<>();
-            List<User> usersList = service.findAllUsers();
+            List<User> allUsers = service.findAllUsers();
 
-            userComboBox.setItems(usersList);
+            List<User> filteredUsers = allUsers.stream()
+                    .filter(user -> user.getAuthority().getIdRol() == 3 || user.getAuthority().getIdRol() ==4 )
+                    .collect(Collectors.toList());
+
+            userComboBox.setItems(filteredUsers);
             userComboBox.setItemLabelGenerator(User::getFirstName);
 
             Binder<Case> binder = new Binder<>(Case.class);
@@ -74,7 +78,8 @@ crud.getCrudFormFactory().setFieldProvider("abogado", entity -> {
             return userComboBox;
         });
 
-add(
+
+        add(
         new H1("Dashboard Cases"),
         crud
 );

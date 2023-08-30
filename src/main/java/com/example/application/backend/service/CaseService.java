@@ -1,14 +1,8 @@
 package com.example.application.backend.service;
 
 
-import com.example.application.backend.entity.Abogado;
-import com.example.application.backend.entity.Case;
-import com.example.application.backend.entity.Service;
-import com.example.application.backend.entity.User;
-import com.example.application.backend.repository.AbogadoRepository;
-import com.example.application.backend.repository.CaseRepository;
-import com.example.application.backend.repository.ServiceRepository;
-import com.example.application.backend.repository.UserRepository;
+import com.example.application.backend.entity.*;
+import com.example.application.backend.repository.*;
 import org.vaadin.crudui.crud.CrudListener;
 
 import java.util.Collection;
@@ -18,13 +12,13 @@ import java.util.List;
 public class CaseService implements CrudListener<Case> {
 
 private final CaseRepository caseRepository;
-private final AbogadoRepository abogadoRepository;
+private final AvocatRepository avocatRepository;
 private final ServiceRepository serviceRepository;
 private final UserRepository userRepository;
 
-    public CaseService(CaseRepository caseRepository, AbogadoRepository abogadoRepository, ServiceRepository serviceRepository, UserRepository userRepository) {
+    public CaseService(CaseRepository caseRepository, AbogadoRepository abogadoRepository, AvocatRepository avocatRepository, ServiceRepository serviceRepository, UserRepository userRepository) {
         this.caseRepository = caseRepository;
-        this.abogadoRepository = abogadoRepository;
+        this.avocatRepository = avocatRepository;
         this.serviceRepository = serviceRepository;
         this.userRepository = userRepository;
     }
@@ -50,8 +44,8 @@ private final UserRepository userRepository;
 
     }
 
-    public List<Abogado> findAllAbogados() {
-        return abogadoRepository.findAll();
+    public List<Avocat> findAllAbogados() {
+        return avocatRepository.findAll();
     }
     public List<Service> findAllServices(){
         return serviceRepository.findAll();

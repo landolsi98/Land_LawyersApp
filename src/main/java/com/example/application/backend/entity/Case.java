@@ -38,13 +38,19 @@ public class Case {
     @Column
     private LocalDate creation_date;
 
+    @Column(name = "Document")
+    private byte[] document;
 
 
 
+/*
     @ManyToOne
     @JoinColumn(name = "id_abogado", nullable = false)
 
     private Abogado abogado;
+*/
+
+
 
     @NotNull
     @ManyToOne
@@ -56,6 +62,10 @@ public class Case {
     @ManyToOne
     @JoinColumn(name = "id_user", nullable = false)
     private User client;
+
+    @ManyToOne
+    private Avocat avocat;
+
 
     public Integer getIdCase() {
         return idCase;
@@ -96,7 +106,7 @@ public class Case {
     public void setCreationDate(LocalDate creation_date) {
         this.creation_date = creation_date;
     }
-
+/*
     public Abogado getAbogado() {
         return abogado;
     }
@@ -104,7 +114,7 @@ public class Case {
     public void setAbogado(Abogado abogado) {
         this.abogado = abogado;
     }
-
+*/
 
     public User getUser() {
         return client;
@@ -122,16 +132,24 @@ public class Case {
         this.service = service;
     }
 
+    public Avocat getAvocat() {
+        return avocat;
+    }
+
+    public void setAvocat(Avocat avocat) {
+        this.avocat = avocat;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Case aCase = (Case) o;
-        return Objects.equals(idCase, aCase.idCase) && Objects.equals(title, aCase.title) && Objects.equals(description, aCase.description) && Objects.equals(state, aCase.state) && Objects.equals(creation_date, aCase.creation_date) && Objects.equals(abogado, aCase.abogado)  && Objects.equals(service, aCase.service);
+        return Objects.equals(idCase, aCase.idCase) && Objects.equals(title, aCase.title) && Objects.equals(description, aCase.description) && Objects.equals(state, aCase.state) && Objects.equals(creation_date, aCase.creation_date)  && Objects.equals(service, aCase.service);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(idCase, title, description, state, creation_date, abogado, service,client);
+        return Objects.hash(idCase, title, description, state, creation_date,  service,client);
     }
 }

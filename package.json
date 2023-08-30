@@ -4,6 +4,7 @@
   "type": "module",
   "dependencies": {
     "@polymer/polymer": "3.5.1",
+    "@vaadin-component-factory/vcf-pdf-viewer": "1.4.1",
     "@vaadin/a11y-base": "24.1.5",
     "@vaadin/accordion": "24.1.5",
     "@vaadin/app-layout": "24.1.5",
@@ -78,6 +79,7 @@
     "date-fns": "2.29.3",
     "lit": "2.7.6",
     "mobile-drag-drop": "2.3.0-rc.2",
+    "print-js": "1.6.0",
     "proj4": "2.9.0"
   },
   "devDependencies": {
@@ -101,6 +103,7 @@
   "vaadin": {
     "dependencies": {
       "@polymer/polymer": "3.5.1",
+      "@vaadin-component-factory/vcf-pdf-viewer": "1.4.1",
       "@vaadin/a11y-base": "24.1.5",
       "@vaadin/accordion": "24.1.5",
       "@vaadin/app-layout": "24.1.5",
@@ -175,6 +178,7 @@
       "date-fns": "2.29.3",
       "lit": "2.7.6",
       "mobile-drag-drop": "2.3.0-rc.2",
+      "print-js": "1.6.0",
       "proj4": "2.9.0"
     },
     "devDependencies": {
@@ -195,7 +199,7 @@
       "workbox-core": "7.0.0",
       "workbox-precaching": "7.0.0"
     },
-    "hash": "9751ecf1a4775086e988313964fc3ef20c3f99f3f2b4242fc43fc7189773bf0a"
+    "hash": "54606a31cdf86a99cfdb43511d9423866be131be3489a277723043e36088c94a"
   },
   "overrides": {
     "@vaadin/bundles": "$@vaadin/bundles",
@@ -273,6 +277,8 @@
     "proj4": "$proj4",
     "@vaadin/vaadin-themable-mixin": "$@vaadin/vaadin-themable-mixin",
     "date-fns": "$date-fns",
-    "mobile-drag-drop": "$mobile-drag-drop"
+    "mobile-drag-drop": "$mobile-drag-drop",
+    "@vaadin-component-factory/vcf-pdf-viewer": "$@vaadin-component-factory/vcf-pdf-viewer",
+    "print-js": "$print-js"
   }
 }

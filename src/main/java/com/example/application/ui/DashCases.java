@@ -21,18 +21,17 @@ import java.util.stream.Collectors;
 @Route(value = "Cases" , layout = MainView.class)
 public class DashCases extends VerticalLayout {
 
-
     public DashCases(CaseService service){
 
 var crud = new GridCrud<>(Case.class, service);
-crud.getGrid().setColumns("idCase","title", "description" , "state","creationDate");
+crud.getGrid().setColumns("idCase","title", "description" , "state","creationDate","document");
 crud.getGrid().addColumn(avocat -> avocat.getAvocat().getFirstName()).setHeader("Charged Lawyer");
 crud.getGrid().addColumn(serv -> serv.getService().getService()).setHeader("Service");
 crud.getGrid().addColumn(user -> user.getUser().getFirstName()).setHeader("Client");
 
 
 crud.getCrudFormFactory().setUseBeanValidation(true); // Activate Bean validations
-crud.getCrudFormFactory().setVisibleProperties("title", "description" , "state","creation_date","avocat","service","client");
+crud.getCrudFormFactory().setVisibleProperties("title", "description" , "state","creation_date","document", "avocat","service","client");
 
 crud.getCrudFormFactory().setFieldProvider("avocat", entity -> {
             ComboBox<Avocat> abogadoComboBox = new ComboBox<>();

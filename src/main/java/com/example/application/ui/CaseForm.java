@@ -3,6 +3,8 @@ package com.example.application.ui;
 import com.example.application.backend.entity.*;
 import com.example.application.backend.service.CaseService;
 import com.example.application.backend.service.NoticiaService;
+import com.example.application.ui.News.NewsForm;
+import com.vaadin.componentfactory.pdfviewer.PdfViewer;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.ComponentEvent;
 import com.vaadin.flow.component.ComponentEventListener;
@@ -20,6 +22,7 @@ import com.vaadin.flow.component.upload.receivers.MultiFileMemoryBuffer;
 import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.server.StreamResource;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
 import com.vaadin.flow.shared.Registration;
 
@@ -28,28 +31,20 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
-@AnonymousAllowed
 
-@Route(value = "caseForm")
+import java.util.List;
+
 public class CaseForm extends FormLayout {
-    private byte[] documentData; // Define imageData as an instance variable
 
-    ComboBox<Avocat> abogados = new ComboBox<>("Status");
-    ComboBox<User> users = new ComboBox<>("Company");
-    ComboBox<Service> services = new ComboBox<>("Company");
+    private byte[] document;
 
-    private CaseService caseService;
-
-    TextField title = new TextField("Title", "News Title");
-    //DatePicker date = new DatePicker("Creation Date");
-
-    TextArea description = new TextArea("News Description");
-
+    TextField title = new TextField("title");
+    TextField description = new TextField("description");
     TextField state = new TextField("state");
-
-    DatePicker date = new DatePicker("date");
-
-
+    DatePicker creation_date = new DatePicker("creation_date");
+    ComboBox<Avocat> avocat = new ComboBox<>("Lawyers");
+    ComboBox<User> client = new ComboBox<>("users");
+    ComboBox<Service> service = new ComboBox<>("services");
 
     Button save = new Button("Save");
     Button delete = new Button("Delete");
@@ -57,42 +52,40 @@ public class CaseForm extends FormLayout {
     // Other fields omitted
     Binder<Case> binder = new BeanValidationBinder<>(Case.class);
 
-    public CaseForm(List<Avocat> avocatList, List<User> usuarios) {
-        addClassName("contact-form");
+    public CaseForm(List<Service> AllServices, List<User> allUsers,List<Avocat> allAvocats) {
+        addClassName("case-form");
         binder.bindInstanceFields(this);
 
+        client.setItems(allUsers);
+        client.setItemLabelGenerator(User::getFirstName);
+        service.setItems(AllServices);
+        service.setItemLabelGenerator(Service::getService);
+        avocat.setItems(allAvocats);
+        avocat.setItemLabelGenerator(Avocat::getFirstName);
 
-        abogados.setItems(avocatList);
-        abogados.setItemLabelGenerator(Avocat::getFirstName);
-        users.setItems(usuarios);
-        users.setItemLabelGenerator(User::getUsername);
+
         add(title,
                 description,
-                abogados,
                 state,
-                users,
-                date,
+                creation_date,
+                service,
+                avocat,
+                client,
                 createButtonsLayout());
 
-
-        MultiFileMemoryBuffer buffer = new MultiFileMemoryBuffer();
-        Upload upload = new Upload(buffer);
+    MultiFileMemoryBuffer buffer = new MultiFileMemoryBuffer();
+    Upload upload = new Upload(buffer);
 
         upload.addSucceededListener(event -> {
-            String fileName = event.getFileName();
-            InputStream inputStream = buffer.getInputStream(fileName);
+        String fileName = event.getFileName();
+        InputStream inputStream = buffer.getInputStream(fileName);
 
-            // Convert the InputStream to a byte array
-            documentData = readInputStream(inputStream); // Set the instance variable
-        });
+        // Convert the InputStream to a byte array
+            document = readInputStream(inputStream); // Set the instance variable
+    });
 
-        add(upload);
+    add(upload);
     }
-
-
-
-
-
     private byte[] readInputStream(InputStream inputStream) {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         byte[] buffer = new byte[1024];
@@ -117,21 +110,20 @@ public class CaseForm extends FormLayout {
         close.addClickShortcut(Key.ESCAPE);
 
         save.addClickListener(event -> validateAndSave()); // <1>
-        delete.addClickListener(event -> fireEvent(new com.example.application.ui.CaseForm.DeleteEvent(this, binder.getBean()))); // <2>
-        close.addClickListener(event -> fireEvent(new com.example.application.ui.CaseForm.CloseEvent(this))); // <3>
+        delete.addClickListener(event -> fireEvent(new DeleteEvent(this, binder.getBean()))); // <2>
+        close.addClickListener(event -> fireEvent(new CloseEvent(this))); // <3>
 
         binder.addStatusChangeListener(e -> save.setEnabled(binder.isValid())); // <4>
         return new HorizontalLayout(save, delete, close);
     }
 
     private void validateAndSave() {
-        if (binder.isValid() && documentData != null) {
+        if (binder.isValid() && document != null) {
             Case caso = binder.getBean();
-            caso.setDocument(documentData); // Set the image data
-            fireEvent(new com.example.application.ui.CaseForm.SaveEvent(this, caso)); // Fire the SaveEvent with the complete data
+            caso.setDocument(document); // Set the image data
+            fireEvent(new CaseForm.SaveEvent(this, caso)); // Fire the SaveEvent with the complete data
         }
     }
-
 
 
     public void setCase(Case caso) {
@@ -139,10 +131,10 @@ public class CaseForm extends FormLayout {
     }
 
     // Events
-    public static abstract class ContactFormEvent extends ComponentEvent<com.example.application.ui.CaseForm> {
+    public static abstract class CaseFormEvent extends ComponentEvent<CaseForm> {
         private Case caso;
 
-        protected ContactFormEvent(com.example.application.ui.CaseForm source, Case caso) {
+        protected CaseFormEvent(CaseForm source, Case caso) {
             super(source, false);
             this.caso = caso;
         }
@@ -152,34 +144,34 @@ public class CaseForm extends FormLayout {
         }
     }
 
-    public static class SaveEvent extends com.example.application.ui.CaseForm.ContactFormEvent {
-        SaveEvent(com.example.application.ui.CaseForm source, Case caso) {
+    public static class SaveEvent extends CaseFormEvent {
+        SaveEvent(CaseForm source, Case caso) {
             super(source, caso);
         }
     }
 
-    public static class DeleteEvent extends com.example.application.ui.CaseForm.ContactFormEvent {
-        DeleteEvent(com.example.application.ui.CaseForm source, Case caso){
+    public static class DeleteEvent extends CaseFormEvent {
+        DeleteEvent(CaseForm source, Case caso) {
             super(source, caso);
         }
 
     }
 
-    public static class CloseEvent extends com.example.application.ui.CaseForm.ContactFormEvent {
-        CloseEvent(com.example.application.ui.CaseForm source) {
+    public static class CloseEvent extends CaseFormEvent {
+        CloseEvent(CaseForm source) {
             super(source, null);
         }
     }
 
-    public Registration addDeleteListener(Class<com.example.application.ui.CaseForm.DeleteEvent> deleteEventClass, ComponentEventListener<com.example.application.ui.CaseForm.DeleteEvent> listener) {
-        return addListener(com.example.application.ui.CaseForm.DeleteEvent.class, listener);
+    public Registration addDeleteListener(ComponentEventListener<DeleteEvent> listener) {
+        return addListener(DeleteEvent.class, listener);
     }
 
-    public Registration addSaveListener(Class<com.example.application.ui.CaseForm.SaveEvent> saveEventClass, ComponentEventListener<com.example.application.ui.CaseForm.SaveEvent> listener) {
-        return addListener(com.example.application.ui.CaseForm.SaveEvent.class, listener);
+    public Registration addSaveListener(ComponentEventListener<SaveEvent> listener) {
+        return addListener(SaveEvent.class, listener);
     }
-    public Registration addCloseListener(Class<com.example.application.ui.CaseForm.CloseEvent> closeEventClass, ComponentEventListener<com.example.application.ui.CaseForm.CloseEvent> listener) {
-        return addListener(com.example.application.ui.CaseForm.CloseEvent.class, listener);
+    public Registration addCloseListener(ComponentEventListener<CloseEvent> listener) {
+        return addListener(CloseEvent.class, listener);
     }
 
 

@@ -7,6 +7,7 @@ import jakarta.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 
+import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 import java.util.Objects;
@@ -24,7 +25,6 @@ public class Case {
     private Integer idCase;
 
     @Column
-
     private String title;
 
 
@@ -42,6 +42,9 @@ public class Case {
     private byte[] document;
 
 
+
+    @Column(name = "Comment")
+    private String comment;
 
 /*
     @ManyToOne

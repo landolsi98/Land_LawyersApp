@@ -4,12 +4,22 @@ import com.example.application.backend.entity.Case;
 import com.example.application.backend.entity.User;
 import com.example.application.backend.service.CaseService;
 import com.example.application.security.AuthenticatedUser;
+import com.lowagie.text.pdf.codec.Base64;
+import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.UI;
+import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.crud.CrudI18n;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
+import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.textfield.PasswordField;
+import com.vaadin.flow.component.upload.Upload;
+import com.vaadin.flow.component.upload.receivers.FileBuffer;
+import com.vaadin.flow.component.upload.receivers.MultiFileMemoryBuffer;
 import com.vaadin.flow.data.renderer.ComponentRenderer;
 import com.vaadin.flow.data.renderer.LitRenderer;
 import com.vaadin.flow.data.renderer.Renderer;
@@ -19,7 +29,11 @@ import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
 import com.vaadin.flow.spring.annotation.UIScope;
 import com.vaadin.flow.theme.lumo.LumoUtility;
+import jakarta.annotation.security.RolesAllowed;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -27,7 +41,7 @@ import java.util.List;
 @UIScope
 @PageTitle("Case monitoring")
 @Route(value = "Case-tracking",layout = MainView.class)
-@AnonymousAllowed
+@RolesAllowed("CLIENT")
 public class CaseTrackerView extends VerticalLayout {
 
     private final CaseService caseService;
@@ -39,7 +53,7 @@ public class CaseTrackerView extends VerticalLayout {
 
         Image backgroundImage = new Image("images/TrackingImage.jpg", "Background Image");
         backgroundImage.setHeight("300px");
-        backgroundImage.getStyle().set("margin-bottom","30px");
+        backgroundImage.getStyle().set("margin-bottom", "30px");
         // backgroundImage.setWidth("1425px");
         //backgroundImage.getStyle().set("margin-top", "800px");
         getElement().getStyle().set("width", "100%");
@@ -61,34 +75,87 @@ public class CaseTrackerView extends VerticalLayout {
         setSpacing(true);
         setWidthFull();
 
+        MultiFileMemoryBuffer buffer = new MultiFileMemoryBuffer();
+
+        Upload upload = new Upload(buffer);
+
+        VerticalLayout layout = new VerticalLayout();
+        Grid<Case> grid = new Grid<>(Case.class, false);
+        grid.addColumn(createEmployeeRenderer()).setHeader("Name")
+                .setAutoWidth(true).setFlexGrow(0);
+        grid.addColumn(Case::getTitle).setHeader("Case")
+                .setAutoWidth(true);
+
+        grid.addColumn(Case::getCreation_date).setHeader("Creation Date")
+                .setAutoWidth(true);
+        grid.addColumn(createStateComponentRenderer()).setHeader("state")
+                .setAutoWidth(true);
+        grid.addColumn(createLawyerRenderer()).setHeader("Lawyer")
+                .setAutoWidth(true).setFlexGrow(0);
+
+        upload.addSucceededListener(event -> {
+            String fileName = event.getFileName();
+            InputStream inputStream = buffer.getInputStream(fileName);
+
+            // Convert the InputStream to a byte array
+            byte[] document = readInputStream(inputStream);
+
+            User currentUser = authenticatedUser.get().orElse(null);
+            if (currentUser != null) {
+                // Find or create a case for the user
+                Case userCase = caseService.findCaseByUser(currentUser);
+                if (userCase == null) {
+                    userCase = new Case();
+                    userCase.setClient(currentUser);
+                    userCase = caseService.add(userCase);
+                }
 
 
+                // Set the document to the case
+                userCase.setDocument(document);
+                caseService.update(userCase); // Update the case
+            }
+        });
 
         User currentUser = authenticatedUser.get().orElse(null);
         if (currentUser != null) {
-            List<Case> userCases = new ArrayList<>();
-            for (Case caseItem : caseService.findAll()) {
-                if (caseItem.getUser().equals(currentUser)) {
-                    userCases.add(caseItem);
-                }
-            }
-            Grid<Case> grid = new Grid<>(Case.class, false);
-            grid.addColumn(createEmployeeRenderer()).setHeader("Name")
-                    .setAutoWidth(true).setFlexGrow(0);
-            grid.addColumn(Case::getTitle).setHeader("Case")
-                    .setAutoWidth(true);
-            grid.addColumn(Case::getCreation_date).setHeader("Creation Date")
-                    .setAutoWidth(true);
-            grid.addColumn(createStateComponentRenderer()).setHeader("state")
-                    .setAutoWidth(true);
-            grid.addColumn(createLawyerRenderer()).setHeader("Lawyer")
-                    .setAutoWidth(true).setFlexGrow(0);
+            Case userCase = caseService.findCaseByUser(currentUser);
+            grid.setItems(userCase);
 
-
-            List<Case> cases = (List<Case>) caseService.findAll();
-            grid.setItems(userCases);
-            add(grid);
         }
+
+        layout.add(grid,upload);
+        add(layout);
+
+
+    }
+
+    private Component createDocumentLinkRenderer(Case caso) {
+        if (caso.getDocument() != null) {
+            Button linkButton = new Button("View Document");
+            linkButton.addClickListener(event -> {
+                // Redirect to the PDF viewer page
+                String pdfViewerLink = "/pdf-viewer?caseId=" + caso.getIdCase();
+                UI.getCurrent().getPage().setLocation(pdfViewerLink);
+            });
+            return linkButton;
+        } else {
+            return new PasswordField("No Document Available");
+        }
+    }
+
+        private byte[] readInputStream(InputStream inputStream) {
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        byte[] buffer = new byte[1024];
+        int length;
+        try {
+            while ((length = inputStream.read(buffer)) != -1) {
+                byteArrayOutputStream.write(buffer, 0, length);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return byteArrayOutputStream.toByteArray();
     }
 
     private Renderer<Case> createEmployeeRenderer() {
@@ -174,4 +241,26 @@ public class CaseTrackerView extends VerticalLayout {
 
 
 
+     /*
+        PdfViewer pdfViewer = new PdfViewer();
+        if (userCase != null && userCase.getDocument() != null) {
+            //File pdfFile = new File("/Users/macbookair/Downloads/landlawyersapp23/src/main/resources/META-INF/resources/pdf/CV_Jawher2023EN.pdf");
+            StreamResource resource = new StreamResource("CV_Jawher2023EN.pdf", () -> {
+                try {
+                    return new ByteArrayInputStream(userCase.getDocument());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return null;
+                }
+            });
+            pdfViewer.setSrc(resource);
 
+
+
+// Set the layout as the content for your UI
+            add(layout);
+
+        }
+    }
+
+         */

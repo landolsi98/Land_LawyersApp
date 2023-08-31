@@ -136,9 +136,11 @@ public class MainView extends AppLayout {
         if (authenticatedUserOptional.isPresent()) {
             User authenticatedUser = authenticatedUserOptional.get();
             Authority authority = authenticatedUser.getAuthority();
-            if(authority != null && "CLIENT".equals(authority.getRol())) {
+            if(authority != null && "CLIENT".equals(authority.getRol()) || "LAWYER".equals(authority.getRol()) ) {
+                Tab ChatRoom = createTab("Chat Room", ChatView.class, new Icon(VaadinIcon.COMMENTS));
+
                 Tab CaseTracker = createTab("Tracking Case", CaseTrackerView.class, new Icon(VaadinIcon.BAR_CHART_H));
-tabs.add(CaseTracker);
+tabs.add(CaseTracker,ChatRoom);
 }
 
 

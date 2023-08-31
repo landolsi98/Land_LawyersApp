@@ -15,12 +15,13 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
+import jakarta.annotation.security.RolesAllowed;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Base64;
 
 @PageTitle("Abogados LandLawyers")
-@AnonymousAllowed
+@RolesAllowed({"ADMIN", "LAWYER"})
 @Route(value = "Dashboard_abogados" , layout = MainView.class)
 public class AbogadoGrid extends VerticalLayout {
 

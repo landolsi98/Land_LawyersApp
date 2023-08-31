@@ -13,6 +13,7 @@ import java.util.List;
 public interface UserRepository extends JpaRepository<User, Long>, JpaSpecificationExecutor<User> {
     User findByUsername(String username);
 
+
     User findByEmail(String email);
 
     @Query("SELECT u FROM User u WHERE u.authority.idRol = :idRol")

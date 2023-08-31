@@ -43,6 +43,13 @@ private final UserRepository userRepository;
         caseRepository.delete(caso);
 
     }
+    public Case findCaseById(Integer idCase) {
+        return caseRepository.findCaseByIdCase(idCase);
+    }
+    public Case findCaseByUser(User client) {
+        return caseRepository.findCaseByClient(client);
+    }
+
 
     public List<Avocat> findAllAbogados() {
         return avocatRepository.findAll();

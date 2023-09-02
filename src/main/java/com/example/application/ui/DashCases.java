@@ -77,15 +77,10 @@ crud.getCrudFormFactory().setFieldProvider("avocat", entity -> {
             return userComboBox;
         });
 
-
         add(
         new H1("Dashboard Cases"),
         crud
 );
-
-
-
-
 
     }
 

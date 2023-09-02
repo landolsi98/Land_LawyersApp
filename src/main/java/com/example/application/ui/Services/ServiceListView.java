@@ -1,7 +1,8 @@
-package com.example.application.ui;
+package com.example.application.ui.Services;
 
 import com.example.application.backend.entity.Service;
 import com.example.application.backend.service.ServiceService;
+import com.example.application.ui.MainView;
 import com.vaadin.flow.component.HasComponents;
 import com.vaadin.flow.component.HasStyle;
 import com.vaadin.flow.component.html.Div;

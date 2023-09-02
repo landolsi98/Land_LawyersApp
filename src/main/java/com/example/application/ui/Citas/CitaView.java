@@ -1,7 +1,8 @@
-package com.example.application.ui;
+package com.example.application.ui.Citas;
 
 import com.example.application.backend.entity.*;
 import com.example.application.backend.service.CitaService;
+import com.example.application.ui.MainView;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;

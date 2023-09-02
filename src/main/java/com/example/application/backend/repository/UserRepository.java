@@ -16,6 +16,8 @@ public interface UserRepository extends JpaRepository<User, Long>, JpaSpecificat
 
     User findByEmail(String email);
 
+
+
     @Query("SELECT u FROM User u WHERE u.authority.idRol = :idRol")
     List<User> findUserByIdRol(@Param("idRol") Integer idRol);
 

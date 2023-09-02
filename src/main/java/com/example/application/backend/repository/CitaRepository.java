@@ -15,7 +15,7 @@ public interface CitaRepository extends JpaRepository<Cita,Long> {
     List<Cita> findAllCitasByDate(LocalDate date);
 
     List<Cita> findAllCitasByTime(LocalTime time);
-
+    List<Cita> findCitasByIdCita(Long idCita);
     Cita findByDateAndTime(LocalDate date, LocalTime time);
 
     Cita findCitaByIdCita(Long idCita);

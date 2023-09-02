@@ -31,13 +31,15 @@ public class CitaService implements CrudListener<Cita> {
         return citaRepository.findAll();
     }
 
+
+
+
     @Override
     public Cita add(Cita cita) {
         return citaRepository.save(cita);
     }
     public Cita findCitaByDateAndTime(LocalDate date, LocalTime time) {
-        // Assuming you have an entity manager or repository for Cita entities
-        // Replace "CitaRepository" with the actual class representing your repository
+
         return citaRepository.findByDateAndTime(date, time);
     }
 
@@ -73,6 +75,11 @@ public class CitaService implements CrudListener<Cita> {
         return userRepository.findAll();
     }
 
+
+    public List<? extends Cita> findOneAll(Long idCita)  {
+        List<? extends Cita> citasByIdCita = citaRepository.findCitasByIdCita(idCita);
+        return citasByIdCita;
+    }
 
 
 }

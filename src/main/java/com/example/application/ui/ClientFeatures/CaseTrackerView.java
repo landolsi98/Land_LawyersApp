@@ -1,9 +1,10 @@
-package com.example.application.ui;
+package com.example.application.ui.ClientFeatures;
 
 import com.example.application.backend.entity.Case;
 import com.example.application.backend.entity.User;
 import com.example.application.backend.service.CaseService;
 import com.example.application.security.AuthenticatedUser;
+import com.example.application.ui.MainView;
 import com.lowagie.text.pdf.codec.Base64;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.UI;
@@ -14,11 +15,9 @@ import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
-import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.upload.Upload;
-import com.vaadin.flow.component.upload.receivers.FileBuffer;
 import com.vaadin.flow.component.upload.receivers.MultiFileMemoryBuffer;
 import com.vaadin.flow.data.renderer.ComponentRenderer;
 import com.vaadin.flow.data.renderer.LitRenderer;
@@ -63,7 +62,6 @@ public class CaseTrackerView extends VerticalLayout {
         backgroundImage.getElement().getStyle().set("border", "none");
         backgroundImage.addClassName(LumoUtility.Margin.NONE);
 
-
         add(backgroundImage
 
         );
@@ -75,9 +73,10 @@ public class CaseTrackerView extends VerticalLayout {
         setSpacing(true);
         setWidthFull();
 
-        MultiFileMemoryBuffer buffer = new MultiFileMemoryBuffer();
 
+        MultiFileMemoryBuffer buffer = new MultiFileMemoryBuffer();
         Upload upload = new Upload(buffer);
+
 
         VerticalLayout layout = new VerticalLayout();
         Grid<Case> grid = new Grid<>(Case.class, false);
@@ -92,6 +91,9 @@ public class CaseTrackerView extends VerticalLayout {
                 .setAutoWidth(true);
         grid.addColumn(createLawyerRenderer()).setHeader("Lawyer")
                 .setAutoWidth(true).setFlexGrow(0);
+        grid.addColumn(Case::getComment).setAutoWidth(true)
+                .setHeader("Comment").getStyle().set("text-align", "end");
+
 
         upload.addSucceededListener(event -> {
             String fileName = event.getFileName();
@@ -126,8 +128,6 @@ public class CaseTrackerView extends VerticalLayout {
 
         layout.add(grid,upload);
         add(layout);
-
-
     }
 
     private Component createDocumentLinkRenderer(Case caso) {
@@ -186,8 +186,6 @@ public class CaseTrackerView extends VerticalLayout {
                                 + "</vaadin-horizontal-layout>")
                 .withProperty("avocat", Case::getAvocat);
     }
-
-
 
     private static final SerializableBiConsumer<Span, Case> stateComponentUpdater = (
             span, caseObject) -> {

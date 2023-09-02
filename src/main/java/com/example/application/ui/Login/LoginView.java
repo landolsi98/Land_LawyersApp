@@ -1,4 +1,4 @@
-package com.example.application.ui;
+package com.example.application.ui.Login;
 
 import com.example.application.security.AuthenticatedUser;
 import com.vaadin.flow.component.html.H1;

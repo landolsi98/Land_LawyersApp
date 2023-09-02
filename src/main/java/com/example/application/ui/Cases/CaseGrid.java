@@ -1,19 +1,18 @@
-package com.example.application.ui;
+package com.example.application.ui.Cases;
 
 import com.example.application.backend.entity.Case;
 import com.example.application.backend.service.CaseService;
+import com.example.application.ui.MainView;
 import com.vaadin.componentfactory.pdfviewer.PdfViewer;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.grid.ItemClickEvent;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.router.QueryParameters;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.StreamResource;
 
-import java.awt.*;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -28,10 +27,7 @@ import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.spring.annotation.SpringComponent;
 import jakarta.annotation.security.PermitAll;
-import org.springframework.beans.factory.config.PlaceholderConfigurerSupport;
 import org.springframework.context.annotation.Scope;
-
-import javax.swing.plaf.LabelUI;
 
 @SpringComponent
 @Scope("prototype")
@@ -105,11 +101,13 @@ public class CaseGrid extends VerticalLayout {
     }
 
 
+
     private Component createDocumentLinkRenderer(Case caso) {
         if (caso.getDocument() != null) {
             Button viewDocumentButton = new Button("View Document", event -> {
                 Long caseId = Long.valueOf(caso.getIdCase()); // Get the case ID
-                UI.getCurrent().navigate("pdf-viewer", QueryParameters.fromString("caseId=" + caseId));
+                System.out.println("????????"  +  caseId.toString());
+                 UI.getCurrent().navigate("pdf-viewer", QueryParameters.fromString(caseId.toString()));
             });
 
             return viewDocumentButton;

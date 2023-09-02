@@ -1,11 +1,15 @@
 package com.example.application.ui;
+
+import com.example.application.backend.entity.Authority;
+import com.example.application.backend.entity.Cita;
+import com.example.application.backend.entity.User;
+import com.example.application.backend.service.CitaService;
+import com.example.application.backend.service.UserService;
+import com.example.application.security.AuthenticatedUser;
+import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
-import com.example.application.backend.entity.*;
-import com.example.application.backend.service.CitaService;
-import com.example.application.backend.service.UserService;
-import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.Div;
@@ -19,27 +23,24 @@ import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.component.timepicker.TimePicker;
 import com.vaadin.flow.data.binder.Binder;
-import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-import com.vaadin.flow.server.auth.AnonymousAllowed;
 import com.vaadin.flow.theme.lumo.LumoUtility;
+
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.ZoneId;
-
-
-
-@PageTitle("Appointment Land Lawyers")
-@AnonymousAllowed
+/*
 @Route(value = "formCita", layout = MainView.class)
-public class CitaForm extends Composite<Div> {
+public class CitaClient extends Composite<Div> {
 
+    private final  AuthenticatedUser authenticatedUser;
     private CitaService citaService;
     private UserService userService;
 
 
-    public CitaForm(UserService userService,CitaService citaService){
+    public CitaClient(AuthenticatedUser authenticatedUser, UserService userService, CitaService citaService){
+        this.authenticatedUser = authenticatedUser;
         this.citaService = citaService;
         this.userService = userService;
         Div content = getContent();
@@ -66,13 +67,13 @@ public class CitaForm extends Composite<Div> {
 
         FormLayout formLayout = new FormLayout();
 
-        TextField firstName = new TextField("Your name here");
+        //TextField firstName = new TextField("Your name here");
 
-        TextField lastName = new TextField("last name");
+        //TextField lastName = new TextField("last name");
 
-        EmailField email = new EmailField("email");
+        //EmailField email = new EmailField("email");
 
-        NumberField phoneNumber = new NumberField("phone number");
+       // NumberField phoneNumber = new NumberField("phone number");
 
         TextArea object = new TextArea("object");
 
@@ -92,7 +93,7 @@ public class CitaForm extends Composite<Div> {
                 Cita::setDate);
         Button saveButton = new Button("Send");
         saveButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY,
-        ButtonVariant.LUMO_CONTRAST);
+                ButtonVariant.LUMO_CONTRAST);
 
         TimePicker time = new TimePicker();
         time.setLabel("Appointment time");
@@ -127,12 +128,12 @@ public class CitaForm extends Composite<Div> {
                         notification2.addThemeVariants(NotificationVariant.LUMO_ERROR);
                         notification2.open();
 
-                    } else {
-                        String userEmail = email.getValue();
-                        User existingUser = userService.findUserByEmail(userEmail);
 
 
-                        if (existingUser == null) {
+                        User currentUser = authenticatedUser.get().orElse(null);
+
+
+                        if (currentUser == null) {
                             User newUser = new User();
                             newUser.setFirstName(firstName.getValue());
                             newUser.setLastName(lastName.getValue());
@@ -144,6 +145,9 @@ public class CitaForm extends Composite<Div> {
 
                             existingUser = userService.add(newUser);
                         }
+
+                    *//*
+
                         Cita newCita = new Cita();
                         newCita.setDate(date.getValue());
                         newCita.setTime(time.getValue());
@@ -160,17 +164,17 @@ public class CitaForm extends Composite<Div> {
 
                     }
                 }
-                );
 
-        formLayout.add(firstName,lastName,email,phoneNumber,object,time,date,saveButton);
+        );
+
+        formLayout.add(object,time,date,saveButton);
         formLayout.addClassNames(LumoUtility.Margin.Horizontal.AUTO, LumoUtility.MaxWidth.SCREEN_LARGE, LumoUtility.Margin.Bottom.XLARGE);
 
         content.add(formLayout);
 
     }
+
+
 }
 
-
-
-
-
+*/

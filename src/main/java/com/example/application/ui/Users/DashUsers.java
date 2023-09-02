@@ -1,7 +1,8 @@
-package com.example.application.ui;
+package com.example.application.ui.Users;
 
 import com.example.application.backend.entity.*;
 import com.example.application.backend.service.UserService;
+import com.example.application.ui.MainView;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.data.binder.Binder;
@@ -14,9 +15,9 @@ import java.util.Collection;
 import java.util.List;
 
 @PageTitle("Dashboard Users")
-@AnonymousAllowed
-@Route(value = "dashUsers" , layout = MainView.class)
-public class DashUsers extends VerticalLayout {
+     @AnonymousAllowed
+     @Route(value = "dashUsers" , layout = MainView.class)
+     public class DashUsers extends VerticalLayout {
 
 
     public DashUsers(UserService userService) {

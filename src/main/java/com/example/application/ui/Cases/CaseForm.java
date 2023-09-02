@@ -1,10 +1,6 @@
-package com.example.application.ui;
+package com.example.application.ui.Cases;
 
 import com.example.application.backend.entity.*;
-import com.example.application.backend.service.CaseService;
-import com.example.application.backend.service.NoticiaService;
-import com.example.application.ui.News.NewsForm;
-import com.vaadin.componentfactory.pdfviewer.PdfViewer;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.ComponentEvent;
 import com.vaadin.flow.component.ComponentEventListener;
@@ -14,6 +10,7 @@ import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.formlayout.FormLayout;
+import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.component.textfield.TextField;
@@ -21,17 +18,11 @@ import com.vaadin.flow.component.upload.Upload;
 import com.vaadin.flow.component.upload.receivers.MultiFileMemoryBuffer;
 import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.data.binder.Binder;
-import com.vaadin.flow.router.Route;
-import com.vaadin.flow.server.StreamResource;
-import com.vaadin.flow.server.auth.AnonymousAllowed;
 import com.vaadin.flow.shared.Registration;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.List;
-
-
 import java.util.List;
 
 public class CaseForm extends FormLayout {
@@ -42,9 +33,11 @@ public class CaseForm extends FormLayout {
     TextField description = new TextField("description");
     TextField state = new TextField("state");
     DatePicker creation_date = new DatePicker("creation_date");
+    TextArea comment = new TextArea("comment" ,"Write a remark or a comment to the client");
     ComboBox<Avocat> avocat = new ComboBox<>("Lawyers");
     ComboBox<User> client = new ComboBox<>("users");
     ComboBox<Service> service = new ComboBox<>("services");
+
 
     Button save = new Button("Save");
     Button delete = new Button("Delete");
@@ -68,10 +61,13 @@ public class CaseForm extends FormLayout {
                 description,
                 state,
                 creation_date,
+                comment,
                 service,
                 avocat,
                 client,
                 createButtonsLayout());
+
+
 
     MultiFileMemoryBuffer buffer = new MultiFileMemoryBuffer();
     Upload upload = new Upload(buffer);
@@ -86,6 +82,7 @@ public class CaseForm extends FormLayout {
 
     add(upload);
     }
+
     private byte[] readInputStream(InputStream inputStream) {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         byte[] buffer = new byte[1024];
@@ -118,13 +115,23 @@ public class CaseForm extends FormLayout {
     }
 
     private void validateAndSave() {
-        if (binder.isValid() && document != null) {
-            Case caso = binder.getBean();
-            caso.setDocument(document); // Set the image data
+        Case caso = binder.getBean();
+        if (binder.isValid() && (isNotEmpty(caso.getTitle()) || isNotEmpty(caso.getDescription()) || isNotEmpty(caso.getComment()))) {
+            if (document != null) {
+                caso.setDocument(document);
+            }
             fireEvent(new CaseForm.SaveEvent(this, caso)); // Fire the SaveEvent with the complete data
+        } else {
+            // Show an error message or handle the case where required fields are missing
+            Notification.show("Please fill in the required fields or upload a document",
+                    3000, Notification.Position.MIDDLE);
         }
     }
 
+    // Helper method to check if a string is not empty
+    private boolean isNotEmpty(String text) {
+        return text != null && !text.trim().isEmpty();
+    }
 
     public void setCase(Case caso) {
         binder.setBean(caso); // <1>

@@ -1,9 +1,10 @@
-package com.example.application.ui;
+package com.example.application.ui.ClientFeatures;
 
 import com.example.application.backend.entity.Case;
 import com.example.application.backend.entity.User;
 import com.example.application.backend.service.CaseService;
 import com.example.application.backend.service.UserService;
+import com.example.application.ui.MainView;
 import com.vaadin.collaborationengine.CollaborationAvatarGroup;
 import com.vaadin.collaborationengine.CollaborationMessageInput;
 import com.vaadin.collaborationengine.CollaborationMessageList;

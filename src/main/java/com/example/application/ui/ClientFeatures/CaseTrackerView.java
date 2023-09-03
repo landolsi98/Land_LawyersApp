@@ -50,7 +50,7 @@ public class CaseTrackerView extends VerticalLayout {
         this.caseService = caseService;
         this.authenticatedUser = authenticatedUser;
 
-        Image backgroundImage = new Image("images/TrackingImage.jpg", "Background Image");
+        Image backgroundImage = new Image("images/bestTracking.jpg", "Background Image");
         backgroundImage.setHeight("300px");
         backgroundImage.getStyle().set("margin-bottom", "30px");
         // backgroundImage.setWidth("1425px");

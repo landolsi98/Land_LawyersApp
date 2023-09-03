@@ -2,6 +2,7 @@ package com.example.application.ui.Cases;
 
 import com.example.application.backend.entity.Case;
 import com.example.application.backend.service.CaseService;
+import com.example.application.ui.HomePage;
 import com.example.application.ui.MainView;
 import com.vaadin.componentfactory.pdfviewer.PdfViewer;
 import com.vaadin.flow.component.UI;
@@ -53,6 +54,7 @@ public class CaseGrid extends VerticalLayout {
         updateList();
         closeEditor();
         pdfView();
+
     }
 
     private HorizontalLayout getContent() {

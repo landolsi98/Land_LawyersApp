@@ -4,12 +4,13 @@ import com.example.application.backend.entity.Authority;
 import com.example.application.backend.entity.User;
 import com.example.application.security.AuthenticatedUser;
 import com.example.application.ui.Citas.CitaForm;
-import com.example.application.ui.Citas.CitaView;
+import com.example.application.ui.Citas.CitaGrid;
 import com.example.application.ui.ClientFeatures.CaseTrackerView;
 import com.example.application.ui.ClientFeatures.ChatView;
 import com.example.application.ui.Lawyers.TeamView;
 import com.example.application.ui.News.NewsView;
 import com.example.application.ui.Services.ServiceListView;
+import com.example.application.ui.Users.SpreadsheetBasic;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.ComponentUtil;
 import com.vaadin.flow.component.applayout.AppLayout;
@@ -26,6 +27,7 @@ import com.vaadin.flow.component.menubar.MenuBar;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.splitlayout.SplitLayout;
 import com.vaadin.flow.component.tabs.Tab;
 import com.vaadin.flow.component.tabs.Tabs;
 import com.vaadin.flow.component.tabs.TabsVariant;
@@ -128,20 +130,24 @@ public class MainView extends AppLayout {
             Tab EquipoTab = createTab("Our Team", TeamView.class, new Icon(VaadinIcon.GAVEL));
             Tab CitaTab = createTab(" Book an appointment", CitaForm.class, new Icon(VaadinIcon.CALENDAR_BRIEFCASE));
             Tab Noticia = createTab("News", NewsView.class, new Icon(VaadinIcon.NEWSPAPER));
-            Tab ContactTab = createTab("Contact Us", CitaView.class, new Icon(VaadinIcon.CHAT));
-            // Add tabs in the desired order
+            Tab ContactTab = createTab("Contact Us", ContactView.class, new Icon(VaadinIcon.CHAT));
+
             tabs.add(homeTab, ServicesTab, EquipoTab, CitaTab, Noticia, ContactTab);
             Optional<User> authenticatedUserOptional = authenticatedUser.get();
 
         if (authenticatedUserOptional.isPresent()) {
             User authenticatedUser = authenticatedUserOptional.get();
             Authority authority = authenticatedUser.getAuthority();
+            if(authority != null &&  "LAWYER".equals(authority.getRol()) ) {
+                Tab WorkingTab = createTab("Working Space", SpreadsheetBasic.class, new Icon(VaadinIcon.WORKPLACE));
+                tabs.add(WorkingTab);
+            }
             if(authority != null && "CLIENT".equals(authority.getRol()) || "LAWYER".equals(authority.getRol()) ) {
                 Tab ChatRoom = createTab("Chat Room", ChatView.class, new Icon(VaadinIcon.COMMENTS));
                 tabs.add(ChatRoom);
       }
             if(authority != null && "CLIENT".equals(authority.getRol()) ) {
-                Tab CaseTracker = createTab("Tracking Case", CaseTrackerView.class, new Icon(VaadinIcon.BAR_CHART_H));
+                Tab CaseTracker = createTab("Case Monitoring", CaseTrackerView.class, new Icon(VaadinIcon.BAR_CHART_H));
                 tabs.add(CaseTracker);
             }
 

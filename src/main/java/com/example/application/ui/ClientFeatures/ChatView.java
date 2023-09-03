@@ -4,6 +4,7 @@ import com.example.application.backend.entity.Case;
 import com.example.application.backend.entity.User;
 import com.example.application.backend.service.CaseService;
 import com.example.application.backend.service.UserService;
+import com.example.application.ui.HomePage;
 import com.example.application.ui.MainView;
 import com.vaadin.collaborationengine.CollaborationAvatarGroup;
 import com.vaadin.collaborationengine.CollaborationMessageInput;

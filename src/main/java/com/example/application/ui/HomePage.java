@@ -185,7 +185,7 @@ public class HomePage extends VerticalLayout {
         }
     }
 
-    private HorizontalLayout aboutUs() {
+    public static HorizontalLayout aboutUs() {
 
 
         HorizontalLayout aboutUs = new HorizontalLayout();
@@ -214,7 +214,7 @@ public class HomePage extends VerticalLayout {
         return aboutUs;
     }
 
-    private VerticalLayout createAboutContentLayout(H1 title, Paragraph paragraph) {
+    private static VerticalLayout createAboutContentLayout(H1 title, Paragraph paragraph) {
         VerticalLayout contentLayout = new VerticalLayout();
         contentLayout.add(title, paragraph);
         return contentLayout;
@@ -322,7 +322,7 @@ public class HomePage extends VerticalLayout {
         return link;
     }
 
-    private HorizontalLayout createFoot() {
+    public static HorizontalLayout createFoot() {
         Div div = new Div();
         div.addClassNames(
                 LumoUtility.Display.FLEX,
@@ -373,7 +373,7 @@ public class HomePage extends VerticalLayout {
         return footLayout;
     }
 
-    private VerticalLayout createLinksColumn1() {
+    public static VerticalLayout createLinksColumn1() {
         VerticalLayout linksLayout = new VerticalLayout();
         linksLayout.addClassNames(LumoUtility.Margin.Left.XLARGE,LumoUtility.Margin.Top.LARGE);
 
@@ -385,7 +385,7 @@ public class HomePage extends VerticalLayout {
         return linksLayout;
     }
 
-    private VerticalLayout createLinksColumn2() {
+    public static VerticalLayout createLinksColumn2() {
         VerticalLayout linksLayout = new VerticalLayout();
         linksLayout.addClassNames(LumoUtility.Margin.Left.NONE,LumoUtility.Margin.Top.LARGE);
 
@@ -396,7 +396,7 @@ public class HomePage extends VerticalLayout {
 
         return linksLayout;
     }
-    private VerticalLayout createLinksColumn3() {
+    public static VerticalLayout createLinksColumn3() {
         VerticalLayout linksLayout = new VerticalLayout();
         linksLayout.addClassNames(LumoUtility.Margin.Left.NONE,LumoUtility.Margin.Top.LARGE);
 
@@ -407,7 +407,7 @@ public class HomePage extends VerticalLayout {
         return linksLayout;
     }
 
-    private Anchor createFooterLink(String label, String targetUrl) {
+    public static Anchor createFooterLink(String label, String targetUrl) {
         Anchor link = new Anchor(targetUrl);
         link.setText(label);
         link.getStyle().set("color", "white");

@@ -1,5 +1,6 @@
 package com.example.application.ui.Citas;
 import com.example.application.security.AuthenticatedUser;
+import com.example.application.ui.HomePage;
 import com.example.application.ui.MainView;
 import com.vaadin.flow.component.AbstractField;
 import com.vaadin.flow.component.HasValue;
@@ -17,6 +18,7 @@ import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.notification.NotificationVariant;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.textfield.EmailField;
 import com.vaadin.flow.component.textfield.NumberField;
 import com.vaadin.flow.component.textfield.TextArea;
@@ -32,6 +34,8 @@ import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.ZoneId;
+import java.util.Optional;
+
 import com.vaadin.flow.data.binder.ValidationStatusChangeListener;
 
 
@@ -47,6 +51,8 @@ public class CitaForm extends Composite<Div> {
 
     private HasValue.ValueChangeListener<? super AbstractField.ComponentValueChangeEvent<EmailField, String>> listener ;
  private HasValue.ValueChangeListener<? super AbstractField.ComponentValueChangeEvent<NumberField, Double>> listener2;
+
+
     public CitaForm(AuthenticatedUser authenticatedUser, UserService userService, CitaService citaService){
         this.authenticatedUser = authenticatedUser;
         this.citaService = citaService;
@@ -74,15 +80,29 @@ public class CitaForm extends Composite<Div> {
         content.add(backgroundImage, title);
 
         FormLayout formLayout = new FormLayout();
-         User connectedUser = authenticatedUser.get().get();
-        TextField firstName = new TextField("Your name here",connectedUser.getFirstName(),connectedUser.getFirstName());
 
-        TextField lastName = new TextField("last name",connectedUser.getLastName(),connectedUser.getLastName());
+        TextField firstName;
+        TextField lastName;
+ EmailField email;
+        NumberField phoneNumber;
+
+        Optional<User> userOptional = authenticatedUser.get();
+
+        if (userOptional.isPresent()) {
+            User connectedUser = userOptional.get();
+            System.out.println("*****" + connectedUser);
+            firstName = new TextField("Your name here",connectedUser.getFirstName(),connectedUser.getFirstName());
+             lastName = new TextField("last name",connectedUser.getLastName(),connectedUser.getLastName());
+             email = new EmailField("email",connectedUser.getEmail(),listener);
+             phoneNumber = new NumberField("phone number" , connectedUser.getPhoneNumber(),listener2);
+         } else {
+             firstName = new TextField("Your name here");
+             lastName = new TextField("last name");
+             email = new EmailField("email");
+             phoneNumber = new NumberField("phone number");
+         }
 
 
-        EmailField email = new EmailField("email",connectedUser.getEmail(),listener);
-
-        NumberField phoneNumber = new NumberField("phone number" , connectedUser.getPhoneNumber(),listener2);
 
         TextArea object = new TextArea("object");
 
@@ -174,11 +194,12 @@ public class CitaForm extends Composite<Div> {
                 }
 
                 );
-
+        HorizontalLayout footer = HomePage.createFoot();
+footer.addClassName(LumoUtility.Margin.Bottom.NONE);
         formLayout.add(firstName,lastName,email,phoneNumber,object,time,date,saveButton);
         formLayout.addClassNames(LumoUtility.Margin.Horizontal.AUTO, LumoUtility.MaxWidth.SCREEN_LARGE, LumoUtility.Margin.Bottom.XLARGE);
 
-        content.add(formLayout);
+        content.add(formLayout,footer);
 
     }
 }

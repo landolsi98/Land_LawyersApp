@@ -7,6 +7,7 @@ import com.example.application.backend.service.AbogadoService;
 import com.example.application.backend.service.AvocatService;
 import com.example.application.backend.service.LawyerService;
 import com.example.application.backend.service.UserService;
+import com.example.application.ui.HomePage;
 import com.example.application.ui.MainView;
 import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.html.*;
@@ -73,9 +74,8 @@ private AvocatService avocatService;
         setSpacing(true);
         setWidthFull();
         displayImages();
-
-        HorizontalLayout footLayout = createFoot();
-add(footLayout);
+       HorizontalLayout  layout = createFoot() ;
+add(layout);
 
     }
 
@@ -249,7 +249,6 @@ add(footLayout);
         linksLayout.add(createFooterLink("Our Team", "#book-now"));
         linksLayout.add(createFooterLink("News", "#contact"));
         linksLayout.add(createFooterLink("Book an Appointment", "#see-more"));
-        // Add more links as needed
 
         return linksLayout;
     }
@@ -273,4 +272,6 @@ add(footLayout);
 
         return link;
     }
+
+
 }

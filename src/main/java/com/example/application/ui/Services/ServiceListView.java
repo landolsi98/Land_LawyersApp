@@ -2,13 +2,12 @@ package com.example.application.ui.Services;
 
 import com.example.application.backend.entity.Service;
 import com.example.application.backend.service.ServiceService;
+import com.example.application.ui.HomePage;
 import com.example.application.ui.MainView;
 import com.vaadin.flow.component.HasComponents;
 import com.vaadin.flow.component.HasStyle;
-import com.vaadin.flow.component.html.Div;
-import com.vaadin.flow.component.html.Main;
-import com.vaadin.flow.component.html.Paragraph;
-import com.vaadin.flow.component.html.Span;
+import com.vaadin.flow.component.Text;
+import com.vaadin.flow.component.html.*;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
@@ -21,29 +20,57 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
-@PageTitle("Image List")
+@PageTitle("Services")
 @Route(value = "services" , layout = MainView.class )
 @AnonymousAllowed
-public class ServiceListView extends Main implements HasComponents, HasStyle {
+public class ServiceListView extends VerticalLayout {
 
     @Autowired
     private final ServiceService serviceService;
 
     public ServiceListView(ServiceService serviceService) {
         this.serviceService = serviceService;
+        //  the background image component
+        Image backgroundImage = new Image("images/servicesImage.jpg", "Background Image");
+        backgroundImage.setHeight("370px");
+        // backgroundImage.setWidth("1425px");
+        //backgroundImage.getStyle().set("margin-top", "800px");
+        getElement().getStyle().set("width", "100%");
+        getElement().getStyle().set("margin-bottom", "60px");
 
+        backgroundImage.setWidth("100%");
+        backgroundImage.getElement().getStyle().set("border", "none");
+        backgroundImage.addClassName(LumoUtility.Margin.NONE);
+
+        H1 title = new H1("Our Services");
+        title.getStyle().setMargin("auto");
+        title.getStyle().setColor("brown");
+        title.getStyle().set("margin-top","25px");
+        Text text1 = new Text("\n" +
+                "The Land Lawyers litigation capacities, comprehensive legal assistance.");
+        add(backgroundImage,
+
+                title,text1
+        );
+        setMargin(false);
+        setPadding(false);
+        // Adjusting spacing and alignment
+        setJustifyContentMode(JustifyContentMode.CENTER);
+        setAlignItems(Alignment.CENTER);
+        setSpacing(true);
+        setWidthFull();
         constructUI();
-
-
+HorizontalLayout footer = HomePage.createFoot();
+add(footer);
     }
 
 
     private void constructUI() {
         addClassNames("services");
         //big container
-        addClassNames(LumoUtility.MaxWidth.SCREEN_LARGE, LumoUtility.Margin.Horizontal.AUTO, LumoUtility.Padding.Bottom.LARGE, LumoUtility.Padding.Horizontal.LARGE);
-        addClassNames( LumoUtility.Display.FLEX, LumoUtility.FlexDirection.COLUMN, LumoUtility.AlignItems.CENTER, LumoUtility.Padding.MEDIUM,
-                LumoUtility.BorderRadius.LARGE);
+        //addClassNames(LumoUtility.MaxWidth.SCREEN_LARGE, LumoUtility.Margin.Horizontal.AUTO, LumoUtility.Padding.Bottom.LARGE, LumoUtility.Padding.Horizontal.LARGE);
+        //addClassNames( LumoUtility.Display.FLEX, LumoUtility.FlexDirection.COLUMN, LumoUtility.AlignItems.CENTER, LumoUtility.Padding.MEDIUM,
+               // LumoUtility.BorderRadius.LARGE);
 
 
         VerticalLayout verticalLayout = new VerticalLayout();
@@ -121,6 +148,8 @@ public class ServiceListView extends Main implements HasComponents, HasStyle {
             }
 
             verticalLayout.add(horizontalLayout);
+            verticalLayout.addClassNames(LumoUtility.MaxWidth.SCREEN_LARGE, LumoUtility.Margin.Horizontal.AUTO, LumoUtility.Padding.Bottom.LARGE, LumoUtility.Padding.Horizontal.LARGE);
+
         }
 
         add(verticalLayout);

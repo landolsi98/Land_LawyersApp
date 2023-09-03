@@ -1,6 +1,7 @@
 package com.example.application.ui.Cases;
 
 import com.example.application.backend.entity.*;
+import com.example.application.ui.HomePage;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.ComponentEvent;
 import com.vaadin.flow.component.ComponentEventListener;

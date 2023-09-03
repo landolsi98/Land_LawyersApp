@@ -9,6 +9,7 @@ import com.vaadin.flow.function.SerializableSupplier;
 import com.vaadin.flow.router.*;
 import com.vaadin.flow.server.StreamResource;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
+import com.vaadin.flow.theme.lumo.LumoUtility;
 import org.vaadin.reports.PrintPreviewReport;
 
 import java.util.Collections;
@@ -45,9 +46,9 @@ public class ReportView extends VerticalLayout implements HasUrlParameter<String
             System.out.println("*****" + newCita);
             List<Cita> items = Collections.singletonList(newCita);
             report.setItems(items);
-            report.getReportBuilder().setTitle("Appointment");
+            report.getReportBuilder().setTitle("Appointment Confirmation");
             SerializableSupplier<List<? extends Cita>> listItems = new CitaListSupplier(items);
-            StreamResource pdf = report.getStreamResource("books.pdf" , listItems, PrintPreviewReport.Format.PDF);
+            StreamResource pdf = report.getStreamResource("LandLawyer_Appointment.pdf" , listItems, PrintPreviewReport.Format.PDF);
             add(new HorizontalLayout(new Anchor(pdf, "Download Pdf")), report);
            // add(report);
         } catch (NumberFormatException e) {

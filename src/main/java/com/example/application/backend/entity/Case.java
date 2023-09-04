@@ -9,6 +9,7 @@ import java.time.LocalDate;
 
 import jakarta.validation.constraints.Size;
 import lombok.Data;
+import org.hibernate.annotations.Formula;
 
 import java.util.Objects;
 
@@ -46,6 +47,8 @@ public class Case {
     @Column(name = "Comment")
     private String comment;
 
+
+
 /*
     @ManyToOne
     @JoinColumn(name = "id_abogado", nullable = false)
@@ -68,11 +71,18 @@ public class Case {
 
     @ManyToOne
     private Avocat avocat;
+/*
+    @Formula("(select count(*) from `Case` where id_user = id_case)")
+    private int usersCount;
 
-
+    public int getUsersCount(){
+        return usersCount;
+    }
     public Integer getIdCase() {
         return idCase;
     }
+    */
+
 
     public void setIdCase(Integer idCase) {
         this.idCase = idCase;

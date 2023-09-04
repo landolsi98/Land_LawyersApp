@@ -24,6 +24,13 @@ public class AvocatService implements CrudListener<Avocat> {
     public Collection<Avocat> findAll() {
         return avocatRepository.findAll();
     }
+    public Collection<Avocat> findAllLawyers(String filter) {
+        if(filter == null || filter.isEmpty()){
+            return avocatRepository.findAll();
+        }else {
+            return avocatRepository.search(filter);
+        }
+    }
 
     @Override
     public Avocat add(Avocat avocat) {

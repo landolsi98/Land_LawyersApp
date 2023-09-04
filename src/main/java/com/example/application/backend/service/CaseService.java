@@ -23,9 +23,20 @@ private final UserRepository userRepository;
         this.userRepository = userRepository;
     }
 
+    public Collection<Case> findAllCases(String caseFilter) {
+        if(caseFilter == null || caseFilter.isEmpty()){
+            return caseRepository.findAll();
+        }else {
+            return caseRepository.search(caseFilter);
+        }
+    }
+   /* public long countUsers() {
+        return caseRepository.count();
+    }*/
     @Override
     public Collection<Case> findAll() {
-        return caseRepository.findAll();
+    return caseRepository.findAll();
+
     }
 
     @Override

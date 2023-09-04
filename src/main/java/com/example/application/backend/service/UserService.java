@@ -28,9 +28,14 @@ private final LawyerRepository lawyerRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
-    public Collection<User> findAll() {
-        return userRepository.findAll();
+    public Collection<User> findAllUsers(String filter) {
+        if(filter == null ||  filter.isEmpty()) {
+            return userRepository.findAll();
+        }else {
+            return userRepository.search(filter);
+        }
     }
+
     public User findUserById(Long idUser) {
         return userRepository.findById(idUser).orElse(null);
     }
@@ -50,6 +55,13 @@ private final LawyerRepository lawyerRepository;
     public List<User> findUserByIdRol(Integer idRol){
         return userRepository.findUserByIdRol(idRol);
     }
+
+
+    @Override
+    public Collection<User> findAll() {
+        return userRepository.findAll();
+    }
+
     @Transactional
     public User add(User user) {
         if(user.getPassword() != null) {

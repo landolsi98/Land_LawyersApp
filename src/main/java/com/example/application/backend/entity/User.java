@@ -4,6 +4,7 @@ package com.example.application.backend.entity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import lombok.*;
+import org.hibernate.annotations.Formula;
 
 import java.util.Objects;
 
@@ -42,7 +43,7 @@ public class User {
     private Boolean enable;
 
     @Column
-    private Double phoneNumber;
+    private Integer phoneNumber;
 
 
     @ManyToOne
@@ -109,11 +110,11 @@ public class User {
         this.enable = enable;
     }
 
-    public Double getPhoneNumber() {
+    public Integer getPhoneNumber() {
         return phoneNumber;
     }
 
-    public void setPhoneNumber(Double phoneNumber) {
+    public void setPhoneNumber(Integer phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
 

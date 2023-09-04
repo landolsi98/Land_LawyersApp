@@ -1,5 +1,6 @@
 package com.example.application.backend.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreType;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -12,7 +13,6 @@ import java.util.Objects;
 @NoArgsConstructor
 @AllArgsConstructor
 @PrimaryKeyJoinColumn(name = "id_user")
-
 @Entity
 @Table(name = "avocat", schema = "firstDb")
 public class Avocat  extends User {

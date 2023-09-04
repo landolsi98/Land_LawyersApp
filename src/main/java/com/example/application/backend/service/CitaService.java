@@ -31,6 +31,13 @@ public class CitaService implements CrudListener<Cita> {
         return citaRepository.findAll();
     }
 
+    public List<Cita> findAllCitas(String filter) {
+        if (filter == null) {
+            return citaRepository.findAll();
+        }else {
+            return citaRepository.search(filter);
+        }
+    }
 
 
 
@@ -47,12 +54,15 @@ public class CitaService implements CrudListener<Cita> {
         return citaRepository.findCitaByIdCita(idCita);
     }
 
+    /*
     public List<Cita> findCitasByDate(LocalDate date){
         return citaRepository.findAllCitasByDate(date);
     }
     public List<Cita> findCitasByTime(LocalTime time){
         return citaRepository.findAllCitasByTime(time);
     }
+
+     */
     public Cita findCitaByDate(LocalDate date) {
         return citaRepository.findByDate(date);
     }
@@ -80,6 +90,7 @@ public class CitaService implements CrudListener<Cita> {
         List<? extends Cita> citasByIdCita = citaRepository.findCitasByIdCita(idCita);
         return citasByIdCita;
     }
+
 
 
 }

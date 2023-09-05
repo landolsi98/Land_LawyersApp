@@ -37,7 +37,6 @@ public class AppointmentForm extends FormLayout {
     Button save = new Button("Save");
     Button delete = new Button("Delete");
     Button close = new Button("Close");
-    // Other fields omitted
     Binder<Cita> binder = new BeanValidationBinder<>(Cita.class);
 
     public AppointmentForm(List<User> allUsers) {

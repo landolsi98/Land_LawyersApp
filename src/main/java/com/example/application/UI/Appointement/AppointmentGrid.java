@@ -83,7 +83,6 @@ public class AppointmentGrid extends VerticalLayout {
         this.citaService = citaService;
         this.form = new AppointmentForm(citaService.findAllUsers());
 
-        // Setup  grid with columns for title, date, and body
         grid.setColumns("idCita", "object", "date", "time");
         grid.setItems(citaService.findAll());
         grid.addColumn(cita -> cita.getUser().getFirstName()).setHeader("client");

@@ -170,7 +170,8 @@ public class MainView extends AppLayout {
                 Details analyticsDetails = createDetails("Dashboards",
                         createStyledAnchor("http://localhost:8080/Case-grid", " Cases"),
                         createStyledAnchor("http://localhost:8080/dashboard-citas", " Citas"),
-                        createStyledAnchor("http://localhost:8080/dashClients", " Clients"));
+                        createStyledAnchor("http://localhost:8080/dashClients", " Clients"),
+                        createStyledAnchor("http://localhost:8080/dashboard_users", " Users"));
 
                 Tab analyticsTab = createTab("", DashAbogados.class, new Icon(VaadinIcon.BAR_CHART_H));
                 analyticsTab.addComponentAsFirst(analyticsDetails);

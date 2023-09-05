@@ -44,7 +44,6 @@ public class CaseForm extends FormLayout {
     Button save = new Button("Save");
     Button delete = new Button("Delete");
     Button close = new Button("Cancel");
-    // Other fields omitted
     Binder<Case> binder = new BeanValidationBinder<>(Case.class);
 
     public CaseForm(List<Service> AllServices, List<User> allUsers, List<Avocat> allAvocats) {
@@ -78,7 +77,7 @@ public class CaseForm extends FormLayout {
         InputStream inputStream = buffer.getInputStream(fileName);
 
         // Convert the InputStream to a byte array
-            document = readInputStream(inputStream); // Set the instance variable
+            document = readInputStream(inputStream);
     });
 
     add(upload);

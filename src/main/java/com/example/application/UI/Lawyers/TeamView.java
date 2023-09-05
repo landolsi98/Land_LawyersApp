@@ -67,7 +67,7 @@ private AvocatService avocatService;
         setWidthFull();
         displayImages();
        HorizontalLayout  layout = createFoot() ;
-add(layout);
+       add(layout);
 
     }
 
@@ -94,7 +94,7 @@ add(layout);
         }
 
 
-            // Display mainAbogado vertically
+            // Display mainAbogado
         if (mainAbogado != null) {
             Image mainImage = new Image(getImageResource(mainAbogado), "Image not found");
             mainImage.setWidth("460px"); // Set an appropriate height
@@ -126,7 +126,7 @@ add(layout);
         }
 
 
-        // Display otherAbogados horizontally
+        // Display otherAbogados
         HorizontalLayout horizontalLayout = new HorizontalLayout();
         for (Avocat avocat : otherAbogados) {
             Image image = new Image(getImageResource(avocat), "Image not found");

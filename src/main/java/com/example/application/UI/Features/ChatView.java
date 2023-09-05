@@ -82,11 +82,11 @@ public class ChatView extends VerticalLayout {
         titleAndAvatarLayout.getStyle().set("margin-right","auto");
         titleAndAvatarLayout.add(
                  title,
-                avatarGroup // Display the avatar group
+                avatarGroup //  avatar group
         );
 
         add(
-                titleAndAvatarLayout, // Display title and avatars in the same line
+                titleAndAvatarLayout, // title and avatars in the same line
                 messageList,
                 messageInput
         );

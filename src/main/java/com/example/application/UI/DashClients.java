@@ -36,7 +36,8 @@ public class DashClients extends VerticalLayout {
         var crud = new GridCrud<>(User.class);
         ListDataProvider<User> dataProvider = new ListDataProvider<>(clientUsers);
         crud.setFindAllOperation(dataProvider);
-
+        crud.setAddOperationVisible(false);
+        crud.setDeleteOperationVisible(false);
         crud.getGrid().setColumns("idUser", "firstName", "lastName", "username", "email", "password", "enable", "phoneNumber");
         crud.getGrid().addColumn(user -> user.getAuthority().getRol()).setHeader("rol");
         crud.getCrudFormFactory().setVisibleProperties("firstName", "lastName", "username", "email", "password", "enable", "phoneNumber", "authority");

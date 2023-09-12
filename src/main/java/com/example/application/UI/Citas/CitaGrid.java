@@ -13,13 +13,14 @@ import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
+import jakarta.annotation.security.RolesAllowed;
 import org.vaadin.crudui.crud.impl.GridCrud;
 
 import java.util.List;
 @PageTitle("Dashboard Appointments | Land Lawyers")
 
 @Route(value = "dashboard-citas" , layout = MainView.class)
-@AnonymousAllowed
+@RolesAllowed({"ADMIN","LAWYER"})
 public class CitaGrid extends VerticalLayout {
     HorizontalLayout footer = HomePage.createFoot();
 
@@ -59,12 +60,12 @@ public class CitaGrid extends VerticalLayout {
 
 /*
         crud.getCrudFormFactory().setFieldProvider("abogado", entity -> {
-            ComboBox<Avocat> abogadoComboBox = new ComboBox<>();
+            ComboBox<Abogado> abogadoComboBox = new ComboBox<>();
             abogadoComboBox.setLabel("Select Abogado");
-            List<Avocat> abogadoList = service.findAllAbogados();
+            List<Abogado> abogadoList = service.findAllAbogados();
 
             abogadoComboBox.setItems(abogadoList);
-            abogadoComboBox.setItemLabelGenerator(Avocat::getFirstName);
+            abogadoComboBox.setItemLabelGenerator(Abogado::getFirstName);
 
             Binder<Cita> binder = new Binder<>(Cita.class);
             binder.forField(abogadoComboBox)

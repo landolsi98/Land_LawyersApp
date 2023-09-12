@@ -16,13 +16,14 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.theme.lumo.LumoUtility;
+import jakarta.annotation.security.PermitAll;
 import jakarta.annotation.security.RolesAllowed;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 
 @PageTitle("CHAT ROOM | Land Lawyers")
 @Route(value = "chat" , layout = MainView.class)
-@RolesAllowed({"CLIENT" ,"LAWYER"})
+@PermitAll
 public class ChatView extends VerticalLayout {
     private final UserService userService;
     private final CaseService caseService;

@@ -11,6 +11,7 @@ import com.vaadin.flow.data.provider.ListDataProvider;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
+import jakarta.annotation.security.RolesAllowed;
 import org.vaadin.crudui.crud.impl.GridCrud;
 
 import java.util.Collection;
@@ -18,8 +19,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @PageTitle("Clients Dashboard ")
-@AnonymousAllowed
 @Route(value = "dashClients" , layout = MainView.class)
+@RolesAllowed({"ADMIN","LAWYER"})
 public class DashClients extends VerticalLayout {
 
 

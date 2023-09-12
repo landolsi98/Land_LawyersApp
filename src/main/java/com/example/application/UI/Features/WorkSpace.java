@@ -15,13 +15,14 @@ import com.vaadin.flow.router.Route;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.spreadsheet.Spreadsheet;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
+import jakarta.annotation.security.RolesAllowed;
 
 import java.util.List;
 
 
-@AnonymousAllowed
 @PageTitle("Workspace | Land Lawyers")
-@Route(value = "spreadsheet-basic" , layout = MainView.class)
+@Route(value = "workSpace" , layout = MainView.class)
+@RolesAllowed("LAWYER")
 public class WorkSpace extends Div {
 private final ServiceService service;
 private final UserService userService;
@@ -36,7 +37,6 @@ private final UserService userService;
 
         // Spline Chart
         Chart chart = new Chart(ChartType.SPLINE);
-
         Configuration configuration = chart.getConfiguration();
         configuration.getTitle().setText("Land Lawyer Financial Performance and Key Dates");
         configuration.getxAxis().setType(AxisType.DATETIME);
@@ -99,7 +99,7 @@ conf3.getTitle().setText("Users Status Overview Charts");
 
         int totalUsers = usersWithRoleUser.size();
         int totalClients = usersWithRoleClient.size();
-System.out.print("****"+totalClients);
+        System.out.print("****"+totalClients);
         int total = totalUsers + totalClients;
 
         double percentageUsers = ((double) totalUsers / total) * 100;

@@ -40,7 +40,7 @@ public class  Cita {
         @ManyToOne
         @JoinColumn(name = "id_abogado")
 
-        private Avocat abogado;
+        private Abogado abogado;
     */
     public Long getIdCita() {
         return idCita;
@@ -83,11 +83,11 @@ public class  Cita {
     }
 
     /*
-        public Avocat getAbogado() {
+        public Abogado getAbogado() {
             return abogado;
         }
 
-        public void setAbogado(Avocat abogado) {
+        public void setAbogado(Abogado abogado) {
             this.abogado = abogado;
         }
 

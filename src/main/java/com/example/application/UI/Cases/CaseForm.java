@@ -1,8 +1,6 @@
 package com.example.application.UI.Cases;
 
 import com.example.application.backend.entity.*;
-import com.vaadin.collaborationengine.CollaborationBinder;
-import com.vaadin.collaborationengine.UserInfo;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.ComponentEvent;
 import com.vaadin.flow.component.ComponentEventListener;
@@ -36,7 +34,7 @@ public class CaseForm extends FormLayout {
     TextField state = new TextField("state","In Progress / On hold / Closed / Requires");
     DatePicker creation_date = new DatePicker("creation_date");
     TextArea comment = new TextArea("comment" ,"Write a remark or a comment to the client");
-    ComboBox<Avocat> avocat = new ComboBox<>("Lawyers");
+    ComboBox<Abogado> avocat = new ComboBox<>("Lawyers");
     ComboBox<User> client = new ComboBox<>("users");
     ComboBox<Service> service = new ComboBox<>("services");
 
@@ -46,15 +44,15 @@ public class CaseForm extends FormLayout {
     Button close = new Button("Cancel");
     Binder<Case> binder = new BeanValidationBinder<>(Case.class);
 
-    public CaseForm(List<Service> AllServices, List<User> allUsers, List<Avocat> allAvocats) {
+    public CaseForm(List<Service> AllServices, List<User> allUsers, List<Abogado> allAbogados) {
         addClassName("case-form");
         binder.bindInstanceFields(this);
         client.setItems(allUsers);
         client.setItemLabelGenerator(User::getFirstName);
         service.setItems(AllServices);
         service.setItemLabelGenerator(Service::getService);
-        avocat.setItems(allAvocats);
-        avocat.setItemLabelGenerator(Avocat::getFirstName);
+        avocat.setItems(allAbogados);
+        avocat.setItemLabelGenerator(Abogado::getFirstName);
 
 
         add(title,

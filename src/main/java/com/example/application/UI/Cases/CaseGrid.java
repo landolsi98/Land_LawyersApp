@@ -33,14 +33,15 @@ import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.spring.annotation.SpringComponent;
 import jakarta.annotation.security.PermitAll;
+import jakarta.annotation.security.RolesAllowed;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 
 @SpringComponent
 @Scope("prototype")
-@PermitAll
 @Route(value = "Case-grid", layout = MainView.class)
 @PageTitle("Cases | Land Lawyers")
+@RolesAllowed({"ADMIN", "LAWYER"})
 public class CaseGrid extends VerticalLayout {
 
 
@@ -92,15 +93,15 @@ UserInfo userInfo;
         this.form1 = new CaseForm(caseService.findAllServices(),caseService.findAllUsers(),caseService.findAllAbogados());
 
         grid.setColumns("title", "description", "state","creation_date");
-        grid.setColumns("title", "description", "state","creation_date");
         grid.setItems(caseService.findAll());
         grid.addColumn(service -> service.getService().getService()).setHeader("Service");
         grid.addColumn(user -> user.getUser().getFirstName()).setHeader("User");
-        grid.addColumn(avocat -> avocat.getAvocat().getFirstName()).setHeader("Lawyer");
-        grid.getColumns().forEach(col -> col.setAutoWidth(true));
-
+        grid.addColumn(avocat -> avocat.getAbogado().getFirstName()).setHeader("Lawyer");
+        grid.getColumns().forEach(col -> col.setAutoWidth(false));
         grid.addComponentColumn(this::createDocumentLinkRenderer)
                 .setHeader("Document");
+
+
         grid.asSingleSelect().addValueChangeListener(event ->
                 editCase(event.getValue()));
 

@@ -1,22 +1,17 @@
 package com.example.application.backend.service;
 
-import com.example.application.backend.entity.Lawyer;
-import com.example.application.backend.entity.User;
-import com.example.application.backend.repository.LawyerRepository;
+
 import com.example.application.backend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-
+/*
 @Component
 @Transactional
 public class DataInsertionTest {
 
     @Autowired
     private UserRepository userRepository;
-
-    @Autowired
-    private LawyerRepository lawyerRepository;
 
     @Transactional
     public void testInsertData() {
@@ -36,3 +31,5 @@ public class DataInsertionTest {
         lawyerRepository.save(lawyer);
     }
 }
+
+ */

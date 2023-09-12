@@ -22,7 +22,7 @@ public interface UserRepository extends JpaRepository<User, Long>, JpaSpecificat
 
     @Query ("SELECT u FROM User u " +
             "where lower(u.firstName) like lower(concat('%', :searchTerm,'%')) " +
-            " or lower(u.lastName) like lower(concat('%', :searchTerm,'%'))"
+            " or lower(u.email) like lower(concat('%', :searchTerm,'%'))"
     )
     Collection<User> search(@Param("searchTerm") String filter);
 }

@@ -1,8 +1,7 @@
 package com.example.application.UI.Lawyers;
 
+import com.example.application.backend.entity.Abogado;
 import com.example.application.backend.entity.Authority;
-import com.example.application.backend.entity.Avocat;
-import com.example.application.backend.service.LawyerService;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.ComponentEvent;
 import com.vaadin.flow.component.ComponentEventListener;
@@ -27,34 +26,20 @@ import java.io.InputStream;
 
 public class TeamForm extends FormLayout {
     private byte[] imageData; // Define imageData as an instance variable
-
-    private LawyerService lawyerService;
-
     TextField firstName = new TextField("First Name", "Write your first name here ");
-
     TextField lastName = new TextField("Last Name");
-
     EmailField email = new EmailField("Email" , " write your email here @");
-
     PasswordField password = new PasswordField("Password");
-
     TextField phoneNumber = new TextField("Phone Number");
-
     TextField speciality = new TextField("Speciality");
-
     TextField numberBar = new TextField("Bar Number");
-
     TextField position = new TextField(" position");
-
     TextArea description = new TextArea(" description","write a litlle paragraph to describe the skills of the new lawyer");
-
-
-
     Button save = new Button("Save");
     Button delete = new Button("Delete");
     Button close = new Button("Close");
     // Other fields omitted
-    Binder<Avocat> binder = new BeanValidationBinder<>(Avocat.class);
+    Binder<Abogado> binder = new BeanValidationBinder<>(Abogado.class);
 
     public TeamForm() {
         addClassName("form");
@@ -125,52 +110,52 @@ public class TeamForm extends FormLayout {
 
     private void validateAndSave() {
         if (binder.isValid() && imageData != null) {
-            Avocat avocat = binder.getBean();
-            Authority authority = avocat.getAuthority();
+            Abogado abogado = binder.getBean();
+            Authority authority = abogado.getAuthority();
             if (authority == null) {
                 // Create a new Authority and set its idRol
                 authority = new Authority();
                 authority.setIdRol(2);
-                avocat.setAuthority(authority);
+                abogado.setAuthority(authority);
             } else {
                 // If the Authority already exists, set its idRol
                 authority.setIdRol(2);
             }
 
-            avocat.setImage(imageData); // Set the image data
-            fireEvent(new SaveEvent(this, avocat));
+            abogado.setImage(imageData); // Set the image data
+            fireEvent(new SaveEvent(this, abogado));
         }
     }
 
 
 
-    public void setAbogado(Avocat avocat) {
-        binder.setBean(avocat); // <1>
+    public void setAbogado(Abogado abogado) {
+        binder.setBean(abogado); // <1>
     }
 
     // Events
     public static abstract class AbogadoFormEvent extends ComponentEvent<TeamForm> {
-        private Avocat avocat;
+        private Abogado abogado;
 
-        protected AbogadoFormEvent(TeamForm source, Avocat avocat) {
+        protected AbogadoFormEvent(TeamForm source, Abogado abogado) {
             super(source, false);
-            this.avocat = avocat;
+            this.abogado = abogado;
         }
 
-        public Avocat getAbogado() {
-            return avocat;
+        public Abogado getAbogado() {
+            return abogado;
         }
     }
 
     public static class SaveEvent extends AbogadoFormEvent {
-        SaveEvent(TeamForm source, Avocat avocat) {
-            super(source, avocat);
+        SaveEvent(TeamForm source, Abogado abogado) {
+            super(source, abogado);
         }
     }
 
     public static class DeleteEvent extends AbogadoFormEvent {
-        DeleteEvent(TeamForm source, Avocat avocat) {
-            super(source, avocat);
+        DeleteEvent(TeamForm source, Abogado abogado) {
+            super(source, abogado);
         }
 
     }

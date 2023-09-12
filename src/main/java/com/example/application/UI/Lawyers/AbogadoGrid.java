@@ -1,6 +1,6 @@
 package com.example.application.UI.Lawyers;
 
-import com.example.application.backend.entity.Avocat;
+import com.example.application.backend.entity.Abogado;
 import com.example.application.backend.service.AvocatService;
 import com.example.application.UI.Principals.MainView;
 import com.vaadin.flow.component.Component;
@@ -24,15 +24,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.Base64;
 
 @PageTitle("Dashboard Lawyers | Land Lawyers")
-@RolesAllowed({"ADMIN", "LAWYER"})
 @Route(value = "Dashboard_abogados" , layout = MainView.class)
+@RolesAllowed("ADMIN")
 public class AbogadoGrid extends VerticalLayout {
 
     private TeamForm form;
     private Span status;
 
-    private Grid<Avocat> grid = new Grid<>(Avocat.class);
-TextField filterLawyer = new TextField();
+    private Grid<Abogado> grid = new Grid<>(Abogado.class);
+    TextField filterLawyer = new TextField();
     TeamForm form1;
 
     @Autowired
@@ -82,14 +82,11 @@ TextField filterLawyer = new TextField();
     public AbogadoGrid(@Autowired AvocatService avocatService) {
         this.avocatService = avocatService;
         this.form = new TeamForm();
-
         // Setup  grid with columns for title, date, and body
-        grid.setColumns("idAbogado", "firstName", "lastName", "email",  "phoneNumber", "speciality", "numberBar","password", "position","description");
+        grid.setColumns("firstName", "lastName", "email",  "phoneNumber", "speciality", "numberBar","password", "position","description");
         grid.setItems(avocatService.findAll());
 
-
         grid.asSingleSelect().addValueChangeListener(evt -> editAbogado(evt.getValue()));
-
 
         form1 = new TeamForm();
         form1.addSaveListener(TeamForm.SaveEvent.class, this::saveAbogado);
@@ -104,8 +101,6 @@ TextField filterLawyer = new TextField();
         content.getStyle().set("display","flex");
         content.getStyle().set("flex","row");
 
-        //Button addAbogado= new Button ( "Add Abogado" , click -> addAbogado());
-
 
 
         add(getToolbar(),grid,content);
@@ -114,7 +109,7 @@ TextField filterLawyer = new TextField();
     }
 
     private Component getToolbar() {
-        filterLawyer.setPlaceholder("Filter by name...");
+        filterLawyer.setPlaceholder("Filter by name/position...");
         filterLawyer.setClearButtonVisible(true);
         filterLawyer.setValueChangeMode(ValueChangeMode.LAZY);
         filterLawyer.addValueChangeListener(e -> updateList());
@@ -129,17 +124,17 @@ TextField filterLawyer = new TextField();
 
     private void addAbogado() {
         grid.asSingleSelect().clear();
-        editAbogado(new Avocat());
+        editAbogado(new Abogado());
 
 
     }
 
-    private void editAbogado(Avocat avocat) {
+    private void editAbogado(Abogado abogado) {
 
-        if(avocat == null) {
+        if(abogado == null) {
             closeEditor();
         }else {
-            form1.setAbogado(avocat);
+            form1.setAbogado(abogado);
             form1.setVisible(true);
             addClassName("editing");
         }

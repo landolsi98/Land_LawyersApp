@@ -18,7 +18,7 @@ public interface CaseRepository extends JpaRepository<Case, Integer> {
     @Query("SELECT c FROM Case c " +
             "where lower(c.title) like lower(concat('%', :searchTerm,'%')) " +
             " or lower(c.client.firstName) like lower(concat('%', :searchTerm,'%'))"+
-            " or lower(c.avocat.firstName) like lower(concat('%', :searchTerm,'%'))"
+            " or lower(c.abogado.firstName) like lower(concat('%', :searchTerm,'%'))"
 
     )
     Collection<Case> search(@Param("searchTerm") String caseFilter);

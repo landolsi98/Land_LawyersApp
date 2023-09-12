@@ -24,7 +24,6 @@ import java.util.List;
 public class AppointmentForm extends FormLayout {
 
     private CitaService citaService;
-
     TextField object = new TextField("Object", "Write your first name here ");
 
     DatePicker date = new DatePicker("date");
@@ -32,8 +31,6 @@ public class AppointmentForm extends FormLayout {
     TimePicker time = new TimePicker("time");
 
     ComboBox<User> client = new ComboBox<>("Client");
-
-
     Button save = new Button("Save");
     Button delete = new Button("Delete");
     Button close = new Button("Close");
@@ -77,7 +74,6 @@ public class AppointmentForm extends FormLayout {
             fireEvent(new AppointmentForm.SaveEvent(this, binder.getBean())); // <6>
         }
     }
-
     public void setCita(Cita cita) {
         binder.setBean(cita); // <1>
     }

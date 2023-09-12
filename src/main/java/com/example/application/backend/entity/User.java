@@ -12,7 +12,6 @@ import java.util.Objects;
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 public class User {
-
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -20,13 +19,11 @@ public class User {
     @Column
     private Integer idUser;
 
-
     @Column
     private String firstName;
 
     @Column
     private String lastName;
-
 
     @Column
     private String username;
@@ -34,7 +31,6 @@ public class User {
     @Email
     @Column
     private String email;
-
 
     @Column
     private String password;
@@ -45,11 +41,9 @@ public class User {
     @Column
     private Integer phoneNumber;
 
-
     @ManyToOne
     @JoinColumn(name = "id_rol")
     private Authority authority;
-
 
     public User() {
     }

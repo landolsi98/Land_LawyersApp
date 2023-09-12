@@ -64,17 +64,11 @@ public class ServiceListView extends VerticalLayout {
 
     private void constructUI() {
         addClassNames("services");
-        //big container
-        //addClassNames(LumoUtility.MaxWidth.SCREEN_LARGE, LumoUtility.Margin.Horizontal.AUTO, LumoUtility.Padding.Bottom.LARGE, LumoUtility.Padding.Horizontal.LARGE);
-        //addClassNames( LumoUtility.Display.FLEX, LumoUtility.FlexDirection.COLUMN, LumoUtility.AlignItems.CENTER, LumoUtility.Padding.MEDIUM,
-               // LumoUtility.BorderRadius.LARGE);
-
 
         VerticalLayout verticalLayout = new VerticalLayout();
         verticalLayout.setSpacing(true);
 
         List<Service> services = serviceService.findAll();
-
         int cardsPerRow = 3;
         int totalRows = 10;
 

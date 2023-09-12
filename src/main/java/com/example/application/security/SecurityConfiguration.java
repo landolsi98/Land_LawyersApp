@@ -17,22 +17,19 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @EnableWebSecurity
 @Configuration
 public class SecurityConfiguration extends VaadinWebSecurity {
-
     private final UserDetailsServiceImpl userDetailsServiceImpl;
 
     public SecurityConfiguration(UserDetailsServiceImpl userDetailsServiceImpl) {
         this.userDetailsServiceImpl = userDetailsServiceImpl;
     }
-
-
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .sessionManagement(sessionManagement ->
                         sessionManagement
-                                .sessionCreationPolicy(SessionCreationPolicy.ALWAYS) // Crée une session si nécessaire
-                                .maximumSessions(1) // Limite d'une seule session par utilisateur
-                                .expiredUrl("/session-expired") // Page à afficher lorsque la session expire
+                                .sessionCreationPolicy(SessionCreationPolicy.ALWAYS) // Create a session if necessary
+                                .maximumSessions(1) // only one session by user
+                                .expiredUrl("/session-expired") //  displayed it page when the session expire
                 );
 
             http.authorizeHttpRequests(auth ->
@@ -42,13 +39,10 @@ public class SecurityConfiguration extends VaadinWebSecurity {
             setLoginView(http, LoginView.class); // <4>
         }
 
-
-
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsServiceImpl)
                 .passwordEncoder(passwordEncoder());
     }
-
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();

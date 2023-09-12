@@ -51,7 +51,7 @@ public class TestCaseForm extends FormLayout {
              save.setEnabled(false);
 
          User avocatUser = this.userService.findUserById(375L);
-         if (avocatUser instanceof Avocat) {
+         if (avocatUser instanceof Abogado) {
              Case newCase = new Case();
              newCase.setTitle(title.getValue());
              newCase.setCreation_date(date.getValue());
@@ -66,7 +66,7 @@ public class TestCaseForm extends FormLayout {
              service.setIdService(9);
              newCase.setService(service);
 
-             newCase.setAvocat((Avocat) avocatUser);
+             newCase.setAbogado((Abogado) avocatUser);
 
              caseService.add(newCase);
 

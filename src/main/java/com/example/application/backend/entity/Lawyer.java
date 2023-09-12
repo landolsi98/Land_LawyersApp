@@ -8,10 +8,9 @@ import lombok.*;
 import java.util.Arrays;
 import java.util.Objects;
 
-
+/*
 @NoArgsConstructor
 @AllArgsConstructor
-
 @Data
 @Entity
 @PrimaryKeyJoinColumn(name = "id_user")
@@ -43,7 +42,7 @@ public class Lawyer  extends User  {
     @Column(name = "description", nullable = false, length = 45)
     private String description;
 
-    @OneToOne(cascade = CascadeType.PERSIST) // Cascade only the persist operation
+    @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "id_user")
     private User user;
 
@@ -118,3 +117,4 @@ public class Lawyer  extends User  {
         return result;
     }
 }
+*/

@@ -39,8 +39,9 @@ import java.util.Optional;
 
 
 @PageTitle("Appointment booking | Land Lawyers")
-@AnonymousAllowed
+
 @Route(value = "formCita", layout = MainView.class)
+@AnonymousAllowed
 public class CitaForm extends Composite<Div> {
 
     private final AuthenticatedUser authenticatedUser;
@@ -101,7 +102,6 @@ public class CitaForm extends Composite<Div> {
 
 
         TextArea object = new TextArea("object");
-
         DatePicker date = new DatePicker("Appointment date");
         LocalDate now = LocalDate.now(ZoneId.systemDefault());
 
@@ -148,12 +148,9 @@ public class CitaForm extends Composite<Div> {
         saveButton.addClickListener(event -> {
                     saveButton.setEnabled(true);
 
-
                     LocalDate dateCita = date.getValue();
                     LocalTime timeCita = time.getValue();
                     Cita existingAppointment = citaService.findCitaByDateAndTime(dateCita, timeCita);
-
-
                     if(existingAppointment != null ) {
                         Notification notification2 = new Notification(
                                 "No available appointment in this time",
@@ -162,12 +159,9 @@ public class CitaForm extends Composite<Div> {
                         );
                         notification2.addThemeVariants(NotificationVariant.LUMO_ERROR);
                         notification2.open();
-
                     } else {
                         String userEmail = email.getValue();
                         User existingUser = userService.findUserByEmail(userEmail);
-
-
 
                      if (existingUser == null) {
                             User newUser = new User();

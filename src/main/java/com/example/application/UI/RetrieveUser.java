@@ -1,6 +1,6 @@
 package com.example.application.UI;
 
-import com.example.application.backend.entity.Avocat;
+import com.example.application.backend.entity.Abogado;
 import com.example.application.backend.service.AvocatService;
 import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -19,16 +19,16 @@ public class RetrieveUser extends VerticalLayout {
     public RetrieveUser(AvocatService avocatService) {
         this.avocatService = avocatService;
 
-        List<Avocat> usersWithRole2 = (List<Avocat>) avocatService.findAll();
+        List<Abogado> usersWithRole2 = (List<Abogado>) avocatService.findAll();
 
         if (!usersWithRole2.isEmpty()) {
-            for (Avocat avocat : usersWithRole2) {
-              //  Integer userIdValue = avocat.getIdUser();
-               // String username = avocat.getUsername();
+            for (Abogado abogado : usersWithRole2) {
+              //  Integer userIdValue = abogado.getIdUser();
+               // String username = abogado.getUsername();
                // String speciality = user.getLawyer().getSpeciality();
                 //Integer rol = user.getAuthority().getIdRol();
-                String name = avocat.getUsername();
-                String position = avocat.getPosition();
+                String name = abogado.getUsername();
+                String position = abogado.getPosition();
                 Text userLabel = new Text("User ID: " +   ", Username: " +  name + "position :"  + position+ "Name : " );
                 add(userLabel);
             }

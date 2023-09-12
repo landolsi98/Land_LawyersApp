@@ -15,6 +15,7 @@ import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
 import com.vaadin.flow.spring.annotation.UIScope;
+import jakarta.annotation.security.RolesAllowed;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.vaadin.flow.component.grid.Grid;
@@ -23,8 +24,8 @@ import com.vaadin.flow.router.Route;
 
 @UIScope
 @PageTitle("Dashboard news | Land Lawyers")
-@AnonymousAllowed
 @Route(value = "Dashboard_News" , layout = MainView.class)
+@RolesAllowed("ADMIN")
 public class NoticiasGrid extends VerticalLayout {
     private final NewsForm form1;
     private Span status;

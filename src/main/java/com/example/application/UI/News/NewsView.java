@@ -66,7 +66,6 @@ public class NewsView extends VerticalLayout {
         for (Noticia noticia : news) {
             VerticalLayout verticalLayout = new VerticalLayout();
             verticalLayout.addClassNames(LumoUtility.Margin.Horizontal.AUTO, LumoUtility.MaxWidth.SCREEN_LARGE, LumoUtility.Margin.Bottom.NONE);
-
             H1 title = new H1(noticia.getTitle());
             title.getStyle().set("font-size", "36px");
 
@@ -79,7 +78,6 @@ public class NewsView extends VerticalLayout {
             dateDiv.getStyle().set("margin-top", "20px");
             dateDiv.getStyle().set("width", "80%");
 
-            // Apply border as padding-bottom for width control
             dateDiv.getStyle().set("padding-bottom", "50px");
             dateDiv.getStyle().set("border-bottom", "2px solid grey");
 

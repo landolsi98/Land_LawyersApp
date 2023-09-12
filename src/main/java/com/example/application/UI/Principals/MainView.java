@@ -1,6 +1,6 @@
 package com.example.application.UI.Principals;
 
-import com.example.application.UI.DashAbogados;
+import com.example.application.UI.Lawyers.AbogadoGrid;
 import com.example.application.backend.entity.Authority;
 import com.example.application.backend.entity.User;
 import com.example.application.security.AuthenticatedUser;
@@ -32,7 +32,6 @@ import com.vaadin.flow.component.tabs.Tabs;
 import com.vaadin.flow.component.tabs.TabsVariant;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.RouterLink;
-import com.vaadin.flow.server.auth.AccessAnnotationChecker;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
 
 import java.util.Optional;
@@ -41,28 +40,21 @@ import java.util.Optional;
 public class MainView extends AppLayout {
     private final Tabs menu;
     private H4 viewTitle;
-    private AccessAnnotationChecker accessChecker;
     private AuthenticatedUser authenticatedUser;
 
-    public MainView(AuthenticatedUser authenticatedUser, AccessAnnotationChecker accessAnnotationChecker) {
-        this.accessChecker = accessChecker;
+    public MainView(AuthenticatedUser authenticatedUser) {
         this.authenticatedUser = authenticatedUser;
         //  drawer for the menu
         setPrimarySection(Section.DRAWER);
-
-        // Make the nav bar a header
         addToNavbar(true, createHeaderContent());
-
         //  the menu in the drawer
         menu = createMenu();
         addToDrawer(createDrawerContent(menu));
 
     }
 
-
     private Component createDrawerContent(Tabs menu) {
         VerticalLayout layout = new VerticalLayout();
-
         //  styling for the drawer
         layout.setSizeFull();
         layout.setPadding(false);
@@ -74,20 +66,13 @@ public class MainView extends AppLayout {
 
         //  logo layout
         HorizontalLayout logoLayout = new HorizontalLayout();
-
         logoLayout.setId("logo");
 
-       /*  Image logoImage = new Image("images/LogoLandL23.jpg", "Logo");
-        logoImage.setHeight("90px");
-         logoImage.setWidth("280px");
-         logoLayout.add(logoImage);
-*/
         H2 titulo = new H2("Land Lawyers");
         titulo.getStyle().setColor("dark Blue");
         titulo.getStyle().set("margin-top","15px");
         titulo.getStyle().set("margin-left","22px");
         titulo.getStyle().set("font-weight","bold");
-
 
         layout.add(titulo,menu);
 
@@ -123,15 +108,13 @@ public class MainView extends AppLayout {
         tabs.setId("tabs");
 
             Tab homeTab = createTab("Home", HomePage.class, new Icon(VaadinIcon.HOME));
-
-
             Tab ServicesTab = createTab(" Services", ServiceListView.class, new Icon(VaadinIcon.ACADEMY_CAP));
             Tab EquipoTab = createTab("Our Team", TeamView.class, new Icon(VaadinIcon.GAVEL));
             Tab CitaTab = createTab(" Book an appointment", CitaForm.class, new Icon(VaadinIcon.CALENDAR_BRIEFCASE));
             Tab Noticia = createTab("News", NewsView.class, new Icon(VaadinIcon.NEWSPAPER));
             Tab ContactTab = createTab("Contact Us", ContactView.class, new Icon(VaadinIcon.CHAT));
-
             tabs.add(homeTab, ServicesTab, EquipoTab, CitaTab, Noticia, ContactTab);
+
             Optional<User> authenticatedUserOptional = authenticatedUser.get();
 
         if (authenticatedUserOptional.isPresent()) {
@@ -149,7 +132,6 @@ public class MainView extends AppLayout {
                 Tab CaseTracker = createTab("Case Monitoring", CaseTrackerView.class, new Icon(VaadinIcon.BAR_CHART_H));
                 tabs.add(CaseTracker);
             }
-
             if (authority != null && "ADMIN".equals(authority.getRol())) {
                 //  component only for the admin user
                 Details analyticsDetails = createDetails("Dashboards",
@@ -161,19 +143,18 @@ public class MainView extends AppLayout {
                         createStyledAnchor("http://localhost:8080/dashClients", " Clients"),
                         createStyledAnchor("http://localhost:8080/dashboard_users", " Users"));
 
-                Tab analyticsTab = createTab("", DashAbogados.class, new Icon(VaadinIcon.BAR_CHART_H));
+                Tab analyticsTab = createTab("", AbogadoGrid.class, new Icon(VaadinIcon.BAR_CHART_H));
                 analyticsTab.addComponentAsFirst(analyticsDetails);
                 tabs.add(analyticsTab);
 
             } else if ( "LAWYER".equals(authority.getRol())) {
-                // Add the "Analytics" details without the "Lawyers" link/tab for lawyers
                 Details analyticsDetails = createDetails("Dashboards",
                         createStyledAnchor("http://localhost:8080/Case-grid", " Cases"),
-                        createStyledAnchor("http://localhost:8080/dashboard-citas", " Citas"),
+                        createStyledAnchor("http://localhost:8080/Dashboard_appointments", " Citas"),
                         createStyledAnchor("http://localhost:8080/dashClients", " Clients"),
                         createStyledAnchor("http://localhost:8080/dashboard_users", " Users"));
 
-                Tab analyticsTab = createTab("", DashAbogados.class, new Icon(VaadinIcon.BAR_CHART_H));
+                Tab analyticsTab = createTab("", AbogadoGrid.class, new Icon(VaadinIcon.BAR_CHART_H));
                 analyticsTab.addComponentAsFirst(analyticsDetails);
                 tabs.add(analyticsTab);
             }
@@ -184,8 +165,7 @@ public class MainView extends AppLayout {
 
         private Component createHeaderContent() {
         HorizontalLayout layout = new HorizontalLayout();
-
-        // Configure styling for the header
+        //  styling  the header
         layout.setId("header");
         layout.getThemeList().set("dark", true);
         layout.setWidthFull();
@@ -196,7 +176,7 @@ public class MainView extends AppLayout {
         layout.setPadding(false);
         layout.getThemeList().remove("spacing-s");
         layout.setAlignItems(FlexComponent.Alignment.CENTER);
-        // Have the drawer toggle button on the left
+        // drawer toggle button on the left
         layout.add(new DrawerToggle());
         //  logo layout
         viewTitle = new H4();
@@ -204,18 +184,15 @@ public class MainView extends AppLayout {
         var header = new HorizontalLayout( createAvatar() );
         header.setDefaultVerticalComponentAlignment(FlexComponent.Alignment.CENTER);
         //header.expand(createAvatar());
-        // Use a spacer to push the avatar to the right end
-header.getStyle().set("margin-left","auto");
+         header.getStyle().set("margin-left","auto");
         // Add the avatar
         layout.add(header);
-
         return layout;
     }
 
     private Footer createAvatar() {
         Footer layout = new Footer();
         int colorIndex = 3;
-
         Optional<User> maybeUser = authenticatedUser.get();
         if (maybeUser.isPresent()) {
             User user = maybeUser.get();

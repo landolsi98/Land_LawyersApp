@@ -40,10 +40,7 @@ public class ContactView extends Div {
         customizedMarker.setText("Land Lawyer Office");
         customizedMarker.setTextStyle(textStyle);
         customizedMarker.setDraggable(true);
-
-
         map.getFeatureLayer().addFeature(customizedMarker);
-
         // Listen to marker drop event
         map.addFeatureDropListener(event -> {
             MarkerFeature droppedMarker = (MarkerFeature) event.getFeature();
@@ -69,7 +66,6 @@ public class ContactView extends Div {
         HorizontalLayout layout = new HorizontalLayout();
         VerticalLayout verticallayout = new VerticalLayout();
         H3 title = new H3("Address & Infos");
-
         Accordion accordion = new Accordion();
         accordion.getElement().setProperty("opened", true);
         Span name = new Span("Land Lawyers");
@@ -86,7 +82,6 @@ public class ContactView extends Div {
         personalInfoPanel.addThemeVariants(DetailsVariant.FILLED);
 
         Accordion accordion2 = new Accordion();
-
         accordion2.getElement().setProperty("opened", true);
         Span street = new Span("Law Office, Calle Almeria 4");
         Span zipCode = new Span("28028");
@@ -163,9 +158,6 @@ VerticalLayout verticalLayout = new VerticalLayout();
     vaadinIcon.getElement().getStyle().setColor("darkblue");
 
                 vaadinIcon.setSize("30px");
-
-
-
         Paragraph description = new Paragraph("if you are facing serious charges.it is imperative that you seek assistance from a knowledgeable criminal defense lawyer as as possible. An experienced attorney can guide you through the legal process. Contact us for a better assistance.");
                 description.addClassNames(LumoUtility.Margin.Vertical.MEDIUM,
     LumoUtility.FontSize.MEDIUM,

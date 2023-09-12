@@ -24,7 +24,7 @@ public class DashCases extends VerticalLayout {
 
 var crud = new GridCrud<>(Case.class, service);
 crud.getGrid().setColumns("idCase","title", "description" , "state","creationDate","document");
-crud.getGrid().addColumn(avocat -> avocat.getAvocat().getFirstName()).setHeader("Charged Lawyer");
+crud.getGrid().addColumn(avocat -> avocat.getAbogado().getFirstName()).setHeader("Charged Lawyer");
 crud.getGrid().addColumn(serv -> serv.getService().getService()).setHeader("Service");
 crud.getGrid().addColumn(user -> user.getUser().getFirstName()).setHeader("Client");
 
@@ -33,15 +33,15 @@ crud.getCrudFormFactory().setUseBeanValidation(true); // Activate Bean validatio
 crud.getCrudFormFactory().setVisibleProperties("title", "description" , "state","creation_date","document", "avocat","service","client");
 
 crud.getCrudFormFactory().setFieldProvider("avocat", entity -> {
-            ComboBox<Avocat> abogadoComboBox = new ComboBox<>();
-            List<Avocat> abogadoList = service.findAllAbogados();
+            ComboBox<Abogado> abogadoComboBox = new ComboBox<>();
+            List<Abogado> abogadoList = service.findAllAbogados();
 
             abogadoComboBox.setItems(abogadoList);
-            abogadoComboBox.setItemLabelGenerator(Avocat ::getFirstName);
+            abogadoComboBox.setItemLabelGenerator(Abogado::getFirstName);
 
             Binder<Case> binder = new Binder<>(Case.class);
             binder.forField(abogadoComboBox)
-                    .bind(Case::getAvocat, Case::setAvocat);
+                    .bind(Case::getAbogado, Case::setAbogado);
             return abogadoComboBox;
 
 });

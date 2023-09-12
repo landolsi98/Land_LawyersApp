@@ -117,7 +117,7 @@ public class UserGrid extends VerticalLayout {
 
 
     private Component getToolbar() {
-        filterUser.setPlaceholder("Filter by name...");
+        filterUser.setPlaceholder("Filter by name/email...");
         filterUser.setClearButtonVisible(true);
         filterUser.setValueChangeMode(ValueChangeMode.LAZY);
         filterUser.addValueChangeListener(e -> updateList());

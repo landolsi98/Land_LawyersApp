@@ -1,7 +1,6 @@
 package com.example.application.UI.Lawyers;
 
-import com.example.application.backend.entity.Avocat;
-import com.example.application.backend.service.AbogadoService;
+import com.example.application.backend.entity.Abogado;
 import com.example.application.backend.service.AvocatService;
 import com.example.application.backend.service.UserService;
 import com.example.application.UI.Principals.MainView;
@@ -22,18 +21,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-@AnonymousAllowed
+
 @PageTitle("Our Team | Land Lawyers ")
 @Route(value = "team",layout = MainView.class)
+@AnonymousAllowed
 public class TeamView extends VerticalLayout {
 
    private final  UserService userService;
-private final AbogadoService abogadoService;
 
 private AvocatService avocatService;
-    public TeamView(UserService userService, AbogadoService abogadoService,AvocatService avocatService) {
+    public TeamView(UserService userService,AvocatService avocatService) {
         this.userService = userService;
-        this.abogadoService = abogadoService;
         this.avocatService = avocatService;
 
         //  the background image component
@@ -74,30 +72,26 @@ private AvocatService avocatService;
 
     private void displayImages() {
 
-
-
-        List<Avocat> abogados = (List<Avocat>) avocatService.findAll();
-
-        Avocat mainAbogado = null;
-        List<Avocat> otherAbogados = new ArrayList<>();
+        List<Abogado> abogados = (List<Abogado>) avocatService.findAll();
+        Abogado mainAbogado = null;
+        List<Abogado> otherAbogados = new ArrayList<>();
 
         // Split abogados into mainAbogado and otherAbogados
-        for (Avocat avocat : abogados) {
-            if (Objects.equals(avocat.getNumberBar(),"Y88987K")) {
-                mainAbogado = avocat;
-            } else if (avocat.getImage() != null && avocat.getImage().length > 0) {
-                otherAbogados.add(avocat);
+        for (Abogado abogado : abogados) {
+            if (Objects.equals(abogado.getNumberBar(),"Y88987K")) {
+                mainAbogado = abogado;
+            } else if (abogado.getImage() != null && abogado.getImage().length > 0) {
+                otherAbogados.add(abogado);
             } else {
                 Text error = new Text("no hay abogado 1");
                 add(error);
             }
         }
 
-
             // Display mainAbogado
         if (mainAbogado != null) {
             Image mainImage = new Image(getImageResource(mainAbogado), "Image not found");
-            mainImage.setWidth("460px"); // Set an appropriate height
+            mainImage.setWidth("460px");
             mainImage.setHeight("450px");
             mainImage.getStyle().setMargin("auto");
             mainImage.getStyle().set("border-radius","8px");
@@ -128,26 +122,26 @@ private AvocatService avocatService;
 
         // Display otherAbogados
         HorizontalLayout horizontalLayout = new HorizontalLayout();
-        for (Avocat avocat : otherAbogados) {
-            Image image = new Image(getImageResource(avocat), "Image not found");
+        for (Abogado abogado : otherAbogados) {
+            Image image = new Image(getImageResource(abogado), "Image not found");
             image.setWidth("420px");
             image.setHeight("450px");
             image.setWidth("100%");
             image.getStyle().set("border-radius","8px");
 
 
-            Paragraph info = new Paragraph(avocat.getFirstName());
+            Paragraph info = new Paragraph(abogado.getFirstName());
             info.getStyle().set("font-size","28px");
             info.getStyle().set("font-weight" , "bold");
             info.getStyle().setMargin("auto");
 
-            H4 position2 = new H4(avocat.getPosition());
+            H4 position2 = new H4(abogado.getPosition());
             position2.getStyle().set("font-size","14px");
             position2.getStyle().set("margin-top","-5px");
             position2.getStyle().setColor("grey");
             position2.getStyle().setMargin("auto");
 
-            Paragraph description2 = new Paragraph(avocat.getDescription());
+            Paragraph description2 = new Paragraph(abogado.getDescription());
             description2.getStyle().set("font-size", "16px");
             description2.setWidth("70%");
             description2.getStyle().set("test-align","center");
@@ -160,9 +154,9 @@ private AvocatService avocatService;
         add(horizontalLayout);
     }
 
-    private StreamResource getImageResource(Avocat avocat) {
-        return new StreamResource(avocat.getFirstName() + ".jpg", () -> {
-            ByteArrayInputStream inputStream = new ByteArrayInputStream(avocat.getImage());
+    private StreamResource getImageResource(Abogado abogado) {
+        return new StreamResource(abogado.getFirstName() + ".jpg", () -> {
+            ByteArrayInputStream inputStream = new ByteArrayInputStream(abogado.getImage());
             return inputStream;
         });
     }

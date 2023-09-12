@@ -20,14 +20,13 @@ import com.vaadin.flow.server.auth.AnonymousAllowed;
 import com.vaadin.flow.theme.lumo.LumoUtility;
 
 @PageTitle("Homepage | Land Lawyers ")
-@AnonymousAllowed
 @Route(value = "inicio" , layout = MainView.class)
 @RouteAlias(value = "", layout = MainView.class)
+@AnonymousAllowed
 public class HomePage extends VerticalLayout {
 
     public HomePage() {
 
-        //setSizeFull();
 
         //  the background image component
         Image backgroundImage = new Image("images/background.jpg", "Background Image");
@@ -36,14 +35,11 @@ public class HomePage extends VerticalLayout {
         //backgroundImage.getStyle().set("margin-top", "800px");
         getElement().getStyle().set("width", "100%");
         getElement().getStyle().set("margin-bottom", "30px");
-
         backgroundImage.setWidth("100%");
         backgroundImage.getElement().getStyle().set("border", "none");
         backgroundImage.addClassName(LumoUtility.Margin.NONE);
         //the text overlay
         Div textOverlay = createTextOverlay();
-
-
         // Adding components to the layout
         add(backgroundImage, textOverlay);
         setMargin(false);
@@ -53,7 +49,6 @@ public class HomePage extends VerticalLayout {
         setAlignItems(Alignment.CENTER);
         setSpacing(true);
         setWidthFull();
-
         //  additional styles to remove container spacing
         getStyle().set("border", "none");
         getStyle().set("padding", "0");
@@ -68,8 +63,6 @@ public class HomePage extends VerticalLayout {
         HorizontalLayout footLayout = createFoot();
 
         add(aboutUsLayout, footerLayout,serviceImages,footLayout);
-
-
     }
 
     //Creation of Button and Land Lawyers title
@@ -108,16 +101,11 @@ public class HomePage extends VerticalLayout {
     private HorizontalLayout createImageSetsLayout() {
         HorizontalLayout imageSetsLayout = new HorizontalLayout();
         imageSetsLayout.setSpacing(false);
-
-
         String[] titles = {"Our Office", "Expertise Areas", "Contact Us"};
-
-
         for (int i = 0; i < 3; i++) {
             Div imageLayerContainer = createImageLayerContainer(titles[i]);
             imageSetsLayout.add(imageLayerContainer);
         }
-
         return imageSetsLayout;
     }
 
@@ -180,14 +168,13 @@ public class HomePage extends VerticalLayout {
             case "Expertise Areas":
                 return ServiceListView.class;
             case "Contact Us":
-                return MapViewPort.class;
+                return ContactView.class;
             default:
                 return HomePage.class;
         }
     }
 
     public static HorizontalLayout aboutUs() {
-
 
         HorizontalLayout aboutUs = new HorizontalLayout();
 

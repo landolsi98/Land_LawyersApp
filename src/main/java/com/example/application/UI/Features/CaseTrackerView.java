@@ -39,7 +39,6 @@ public class CaseTrackerView extends VerticalLayout {
 
     private final CaseService caseService;
    private final  AuthenticatedUser authenticatedUser;
-
     public CaseTrackerView(CaseService caseService, AuthenticatedUser authenticatedUser) {
         this.caseService = caseService;
         this.authenticatedUser = authenticatedUser;
@@ -70,7 +69,7 @@ public class CaseTrackerView extends VerticalLayout {
 
         MultiFileMemoryBuffer buffer = new MultiFileMemoryBuffer();
         Upload upload = new Upload(buffer);
-
+upload.getElement().getStyle().set("margin-left","auto");
 
         VerticalLayout layout = new VerticalLayout();
         Grid<Case> grid = new Grid<>(Case.class, false);
@@ -78,7 +77,6 @@ public class CaseTrackerView extends VerticalLayout {
                 .setAutoWidth(true).setFlexGrow(0);
         grid.addColumn(Case::getTitle).setHeader("Case")
                 .setAutoWidth(true);
-
         grid.addColumn(Case::getCreation_date).setHeader("Creation Date")
                 .setAutoWidth(true);
         grid.addColumn(createStateComponentRenderer()).setHeader("state")
@@ -105,8 +103,6 @@ public class CaseTrackerView extends VerticalLayout {
                     userCase.setClient(currentUser);
                     userCase = caseService.add(userCase);
                 }
-
-
                 // Set the document to the case
                 userCase.setDocument(document);
                 caseService.update(userCase); // Update the case
@@ -120,7 +116,7 @@ public class CaseTrackerView extends VerticalLayout {
 
         }
 
-        layout.add(grid,upload);
+        layout.add(upload,grid);
         add(layout);
     }
 
@@ -178,7 +174,7 @@ public class CaseTrackerView extends VerticalLayout {
                                 + "    <span>${item.avocat.barNumber}</span>" // Access lawyer's bar number
                                 + "  </vaadin-vertical-layout>"
                                 + "</vaadin-horizontal-layout>")
-                .withProperty("avocat", Case::getAvocat);
+                .withProperty("avocat", Case::getAbogado);
     }
 
     private static final SerializableBiConsumer<Span, Case> stateComponentUpdater = (

@@ -44,7 +44,7 @@ public class AddDataView extends VerticalLayout {
         saveButton.addClickListener(event -> {
 
             // Créez un nouvel utilisateur
-            Avocat newUser = new Avocat();
+            Abogado newUser = new Abogado();
             newUser.setFirstName(firstName.getValue());
             newUser.setLastName(lastName.getValue());
             newUser.setUsername(username.getValue());

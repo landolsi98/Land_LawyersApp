@@ -32,12 +32,10 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                    getAuthorities(user));
         }
 
-
     }
     private static List<GrantedAuthority> getAuthorities(User user) {
         System.out.println("  msajel wabeni " + user.getAuthority().getRol());
         return Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + user.getAuthority().getRol()));
     }
-
 }
 

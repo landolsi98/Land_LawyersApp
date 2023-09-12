@@ -16,7 +16,7 @@ private final AvocatRepository avocatRepository;
 private final ServiceRepository serviceRepository;
 private final UserRepository userRepository;
 
-    public CaseService(CaseRepository caseRepository, AbogadoRepository abogadoRepository, AvocatRepository avocatRepository, ServiceRepository serviceRepository, UserRepository userRepository) {
+    public CaseService(CaseRepository caseRepository , AvocatRepository avocatRepository, ServiceRepository serviceRepository, UserRepository userRepository) {
         this.caseRepository = caseRepository;
         this.avocatRepository = avocatRepository;
         this.serviceRepository = serviceRepository;
@@ -30,9 +30,7 @@ private final UserRepository userRepository;
             return caseRepository.search(caseFilter);
         }
     }
-   /* public long countUsers() {
-        return caseRepository.count();
-    }*/
+
     @Override
     public Collection<Case> findAll() {
     return caseRepository.findAll();
@@ -62,7 +60,7 @@ private final UserRepository userRepository;
     }
 
 
-    public List<Avocat> findAllAbogados() {
+    public List<Abogado> findAllAbogados() {
         return avocatRepository.findAll();
     }
     public List<Service> findAllServices(){

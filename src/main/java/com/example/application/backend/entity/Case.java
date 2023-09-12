@@ -7,9 +7,7 @@ import jakarta.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 
-import jakarta.validation.constraints.Size;
 import lombok.Data;
-import org.hibernate.annotations.Formula;
 
 import java.util.Objects;
 
@@ -18,16 +16,12 @@ import java.util.Objects;
 @Entity
 @Table(name = "`Case`", schema = "firstDb")
 public class Case {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-
-
     private Integer idCase;
 
     @Column
     private String title;
-
 
     @Column
     private String description;
@@ -35,34 +29,19 @@ public class Case {
     @Column
     private String state;
 
-
     @Column
     private LocalDate creation_date;
 
     @Column(name = "Document")
     private byte[] document;
 
-
-
     @Column(name = "Comment")
     private String comment;
-
-
-
-/*
-    @ManyToOne
-    @JoinColumn(name = "id_abogado", nullable = false)
-
-    private Abogado abogado;
-*/
-
-
 
     @NotNull
     @ManyToOne
     @JoinColumn(name = "id_service", nullable = false)
     private Service service;
-
 
     @NotNull
     @ManyToOne
@@ -70,19 +49,7 @@ public class Case {
     private User client;
 
     @ManyToOne
-    private Avocat avocat;
-/*
-    @Formula("(select count(*) from `Case` where id_user = id_case)")
-    private int usersCount;
-
-    public int getUsersCount(){
-        return usersCount;
-    }
-    public Integer getIdCase() {
-        return idCase;
-    }
-    */
-
+    private Abogado abogado;
 
     public void setIdCase(Integer idCase) {
         this.idCase = idCase;
@@ -119,15 +86,6 @@ public class Case {
     public void setCreationDate(LocalDate creation_date) {
         this.creation_date = creation_date;
     }
-/*
-    public Abogado getAbogado() {
-        return abogado;
-    }
-
-    public void setAbogado(Abogado abogado) {
-        this.abogado = abogado;
-    }
-*/
 
     public User getUser() {
         return client;
@@ -145,12 +103,12 @@ public class Case {
         this.service = service;
     }
 
-    public Avocat getAvocat() {
-        return avocat;
+    public Abogado getAbogado() {
+        return abogado;
     }
 
-    public void setAvocat(Avocat avocat) {
-        this.avocat = avocat;
+    public void setAbogado(Abogado abogado) {
+        this.abogado = abogado;
     }
 
     @Override

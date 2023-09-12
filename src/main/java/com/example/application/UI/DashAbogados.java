@@ -1,9 +1,7 @@
 package com.example.application.UI;
 
 import com.example.application.UI.Principals.MainView;
-import com.example.application.backend.entity.Abogado;
 import com.example.application.backend.entity.Noticia;
-import com.example.application.backend.service.AbogadoService;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.upload.Upload;
@@ -16,7 +14,7 @@ import org.vaadin.crudui.crud.impl.GridCrud;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-
+/*
 @PageTitle("Dashboard Abogados")
 @Route(value = "dashAbogados", layout = MainView.class )
 @AnonymousAllowed
@@ -76,3 +74,4 @@ public class DashAbogados extends VerticalLayout {
     }
     }
 
+*/

@@ -1,18 +1,14 @@
 package com.example.application.backend.service;
 
-import com.example.application.backend.entity.Avocat;
-import com.example.application.backend.entity.Lawyer;
+import com.example.application.backend.entity.Abogado;
 import com.example.application.backend.repository.AvocatRepository;
-import com.example.application.backend.repository.LawyerRepository;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.vaadin.crudui.crud.CrudListener;
 
 import java.util.Collection;
-import java.util.List;
 
 @Service
-public class AvocatService implements CrudListener<Avocat> {
+public class AvocatService implements CrudListener<Abogado> {
 
     private final AvocatRepository avocatRepository;
 
@@ -21,10 +17,25 @@ public class AvocatService implements CrudListener<Avocat> {
     }
 
     @Override
-    public Collection<Avocat> findAll() {
+    public Collection<Abogado> findAll() {
         return avocatRepository.findAll();
     }
-    public Collection<Avocat> findAllLawyers(String filter) {
+
+    @Override
+    public Abogado add(Abogado abogado) {
+        return avocatRepository.save(abogado);
+    }
+
+    @Override
+    public Abogado update(Abogado abogado) {
+        return avocatRepository.save(abogado);
+    }
+
+    @Override
+    public void delete(Abogado abogado) {
+        avocatRepository.delete(abogado);
+    }
+    public Collection<Abogado> findAllLawyers(String filter) {
         if(filter == null || filter.isEmpty()){
             return avocatRepository.findAll();
         }else {
@@ -32,19 +43,5 @@ public class AvocatService implements CrudListener<Avocat> {
         }
     }
 
-    @Override
-    public Avocat add(Avocat avocat) {
-        return avocatRepository.save(avocat);
-    }
-
-    @Override
-    public Avocat update(Avocat avocat) {
-        return avocatRepository.save(avocat);
-    }
-
-    @Override
-    public void delete(Avocat avocat) {
-avocatRepository.delete(avocat);
-    }
 }
 

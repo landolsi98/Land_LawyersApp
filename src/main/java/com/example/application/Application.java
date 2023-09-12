@@ -2,6 +2,7 @@ package com.example.application;
 
 import com.vaadin.flow.component.page.AppShellConfigurator;
 import com.vaadin.flow.component.page.Push;
+import com.vaadin.flow.server.PWA;
 import com.vaadin.flow.theme.Theme;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -15,6 +16,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  */
 @Push
 @SpringBootApplication
+@PWA (name = "Land Lawyers", shortName = "LL")
 @Theme(value = "landlawyersapp")
 public class Application implements AppShellConfigurator {
 

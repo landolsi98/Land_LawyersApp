@@ -30,6 +30,7 @@ import jakarta.annotation.security.RolesAllowed;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Base64;
 
 @UIScope
 @PageTitle("Case Monitoring | Land Lawyers")
@@ -93,7 +94,6 @@ upload.getElement().getStyle().set("margin-left","auto");
 
             // Convert the InputStream to a byte array
             byte[] document = readInputStream(inputStream);
-
             User currentUser = authenticatedUser.get().orElse(null);
             if (currentUser != null) {
                 // Find or create a case for the user
@@ -104,7 +104,7 @@ upload.getElement().getStyle().set("margin-left","auto");
                     userCase = caseService.add(userCase);
                 }
                 // Set the document to the case
-                userCase.setDocument(document);
+                userCase.setDocument(Base64.getEncoder().encodeToString(document));
                 caseService.update(userCase); // Update the case
             }
         });

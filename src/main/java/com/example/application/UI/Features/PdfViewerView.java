@@ -12,6 +12,7 @@ import com.vaadin.flow.server.StreamResource;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
 import org.springframework.beans.factory.annotation.Autowired;
 import java.io.ByteArrayInputStream;
+import java.util.Base64;
 import java.util.List;
 import java.util.Map;
 
@@ -49,8 +50,9 @@ public class PdfViewerView extends VerticalLayout implements HasUrlParameter<Str
                 pdfViewer.setHeight("800px");
                 pdfViewer.setWidth("100%");
                 StreamResource resource = new StreamResource("Land Lawyers Documents", () -> {
+                    String encodedDocument = caso.getDocument();
                     try {
-                        return new ByteArrayInputStream(caso.getDocument());
+                        return new ByteArrayInputStream(Base64.getDecoder().decode(encodedDocument));
                     } catch (Exception e) {
                         e.printStackTrace();
                         return null;

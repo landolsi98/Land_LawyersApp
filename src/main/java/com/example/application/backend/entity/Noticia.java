@@ -24,6 +24,8 @@ public class Noticia {
     @Basic(fetch = FetchType.LAZY) //
      private byte[] imagen; // Storing the image data as a byte array
 
+@Column
+ private String image64;
 
     @Column
 
@@ -44,5 +46,13 @@ public class Noticia {
 
     public void setImage(byte[] image) {
         this.imagen = image;
+    }
+
+    public String getImage64() {
+        return image64;
+    }
+
+    public void setImage64(String image64) {
+        this.image64 = image64;
     }
 }

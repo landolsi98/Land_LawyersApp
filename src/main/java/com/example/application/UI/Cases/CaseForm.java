@@ -23,11 +23,12 @@ import com.vaadin.flow.shared.Registration;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Base64;
 import java.util.List;
 
 public class CaseForm extends FormLayout {
 
-    private byte[] document;
+    private String document;
 
     TextField title = new TextField("title");
     TextField description = new TextField("description");
@@ -67,18 +68,21 @@ public class CaseForm extends FormLayout {
 
 
 
-    MultiFileMemoryBuffer buffer = new MultiFileMemoryBuffer();
-    Upload upload = new Upload(buffer);
+        MultiFileMemoryBuffer buffer = new MultiFileMemoryBuffer();
+        Upload upload = new Upload(buffer);
 
         upload.addSucceededListener(event -> {
-        String fileName = event.getFileName();
-        InputStream inputStream = buffer.getInputStream(fileName);
+            String fileName = event.getFileName();
+            InputStream inputStream = buffer.getInputStream(fileName);
 
-        // Convert the InputStream to a byte array
-            document = readInputStream(inputStream);
-    });
+            // Convert the InputStream to a byte array
+            byte[] imageData = readInputStream(inputStream);
 
-    add(upload);
+            // Encode the byte array to Base64 and store it as an instance variable
+            document = Base64.getEncoder().encodeToString(imageData);
+        });
+
+        add(upload);
     }
 
     private byte[] readInputStream(InputStream inputStream) {

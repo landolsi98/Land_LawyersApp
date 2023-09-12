@@ -23,8 +23,10 @@ import com.vaadin.flow.shared.Registration;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Base64;
 
 public class TeamForm extends FormLayout {
+    private String image64;
     private byte[] imageData; // Define imageData as an instance variable
     TextField firstName = new TextField("First Name", "Write your first name here ");
     TextField lastName = new TextField("Last Name");
@@ -66,8 +68,10 @@ public class TeamForm extends FormLayout {
             String fileName = event.getFileName();
             InputStream inputStream = buffer.getInputStream(fileName);
 
+            byte [] imageData = readInputStream(inputStream);
             // Convert the InputStream to a byte array
-            imageData = readInputStream(inputStream); //  instance variable
+            image64 = Base64.getEncoder().encodeToString(imageData);
+
         });
 
         add(upload);
@@ -109,7 +113,7 @@ public class TeamForm extends FormLayout {
     }
 
     private void validateAndSave() {
-        if (binder.isValid() && imageData != null) {
+        if (binder.isValid()) {
             Abogado abogado = binder.getBean();
             Authority authority = abogado.getAuthority();
             if (authority == null) {
@@ -122,7 +126,7 @@ public class TeamForm extends FormLayout {
                 authority.setIdRol(2);
             }
 
-            abogado.setImage(imageData); // Set the image data
+            abogado.setImage64(image64); // Set the image data
             fireEvent(new SaveEvent(this, abogado));
         }
     }

@@ -25,12 +25,14 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Base64;
 
 @AnonymousAllowed
 @Route(value = "newsForm")
 
 public class NewsForm extends FormLayout {
     private byte[] imageData; // Define imageData as an instance variable
+    private String image64; // Define base64EncodedImage as an instance variable
 
     private NoticiaService noticiaService;
 
@@ -65,14 +67,14 @@ public class NewsForm extends FormLayout {
             InputStream inputStream = buffer.getInputStream(fileName);
 
             // Convert the InputStream to a byte array
-            imageData = readInputStream(inputStream); // Set the instance variable
+            byte[] imageData = readInputStream(inputStream);
+
+            // Encode the byte array to Base64 and store it as an instance variable
+            image64 = Base64.getEncoder().encodeToString(imageData);
         });
 
         add(upload);
     }
-
-
-
 
 
     private byte[] readInputStream(InputStream inputStream) {
@@ -107,9 +109,9 @@ public class NewsForm extends FormLayout {
     }
 
     private void validateAndSave() {
-        if (binder.isValid() && imageData != null) {
+        if (binder.isValid() && image64 != null) {
             Noticia noticia = binder.getBean();
-            noticia.setImage(imageData); // Set the image data
+            noticia.setImage64(image64); // Set the image data
             fireEvent(new SaveEvent(this, noticia)); // Fire the SaveEvent with the complete data
         }
     }

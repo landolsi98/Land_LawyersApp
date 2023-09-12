@@ -12,7 +12,7 @@ import java.util.Objects;
 
 @Data
 @Entity
-@Table(name = "Citas", schema = "firstDb")
+@Table(name = "Citas", schema = "landb")
 public class  Cita {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

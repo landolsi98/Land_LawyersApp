@@ -13,7 +13,7 @@ import java.util.Objects;
 @AllArgsConstructor
 @PrimaryKeyJoinColumn(name = "id_user")
 @Entity
-@Table(name = "avocat", schema = "firstDb")
+@Table(name = "avocat", schema = "landb")
 public class Abogado extends User {
     @NotNull
     @Column(name = "number_bar", nullable = false, length = 45)
@@ -31,6 +31,11 @@ public class Abogado extends User {
     @Lob //large object data
     @Column(name = "image")
     private byte[] image;
+
+
+    @Column
+    private String image64;
+
 
     @Size(max = 45)
     @NotNull
@@ -74,6 +79,15 @@ public class Abogado extends User {
         this.idAbogado = idAbogado;
     }
 */
+
+    public String getImage64() {
+        return image64;
+    }
+
+    public void setImage64(String image64) {
+        this.image64 = image64;
+    }
+
     public String getSpeciality() {
         return speciality;
     }

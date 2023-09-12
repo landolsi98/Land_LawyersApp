@@ -14,7 +14,7 @@ import java.util.Objects;
 
 @Data
 @Entity
-@Table(name = "`Case`", schema = "firstDb")
+@Table(name = "`Case`", schema = "landb")
 public class Case {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,10 +32,10 @@ public class Case {
     @Column
     private LocalDate creation_date;
 
-    @Column(name = "Document")
-    private byte[] document;
+    @Column(name = "document")
+    private String document;
 
-    @Column(name = "Comment")
+    @Column(name = "comment")
     private String comment;
 
     @NotNull

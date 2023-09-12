@@ -16,6 +16,7 @@ import com.vaadin.flow.server.auth.AnonymousAllowed;
 import com.vaadin.flow.theme.lumo.LumoUtility;
 
 import java.io.ByteArrayInputStream;
+import java.util.Base64;
 import java.util.Collection;
 
 @PageTitle("Newspage | Land Lawyers")
@@ -103,10 +104,22 @@ public class NewsView extends VerticalLayout {
 
     private StreamResource getImageResource(Noticia noticia) {
         return new StreamResource(noticia.getTitle() + ".jpg", () -> {
-            ByteArrayInputStream inputStream = new ByteArrayInputStream(noticia.getImage());
-            return inputStream;
+            String base64EncodedImage = noticia.getImage64();
+
+            if (base64EncodedImage != null && !base64EncodedImage.isEmpty()) {
+                ByteArrayInputStream inputStream = new ByteArrayInputStream(Base64.getDecoder().decode(base64EncodedImage));
+                return inputStream;
+            } else {
+                // Return an empty stream or handle the case where image data is missing
+                return new ByteArrayInputStream(new byte[0]);
+            }
         });
     }
+
+
+
+
+
 
     private HorizontalLayout createFoot() {
         Div div = new Div();

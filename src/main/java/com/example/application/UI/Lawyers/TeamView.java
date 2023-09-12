@@ -18,6 +18,7 @@ import com.vaadin.flow.theme.lumo.LumoUtility;
 
 import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 import java.util.Objects;
 
@@ -80,7 +81,7 @@ private AvocatService avocatService;
         for (Abogado abogado : abogados) {
             if (Objects.equals(abogado.getNumberBar(),"Y88987K")) {
                 mainAbogado = abogado;
-            } else if (abogado.getImage() != null && abogado.getImage().length > 0) {
+            } else if (otherAbogados != null){
                 otherAbogados.add(abogado);
             } else {
                 Text error = new Text("no hay abogado 1");
@@ -131,6 +132,7 @@ private AvocatService avocatService;
 
 
             Paragraph info = new Paragraph(abogado.getFirstName());
+            System.out.println("%%%%%%%%" + info);
             info.getStyle().set("font-size","28px");
             info.getStyle().set("font-weight" , "bold");
             info.getStyle().setMargin("auto");
@@ -156,8 +158,15 @@ private AvocatService avocatService;
 
     private StreamResource getImageResource(Abogado abogado) {
         return new StreamResource(abogado.getFirstName() + ".jpg", () -> {
-            ByteArrayInputStream inputStream = new ByteArrayInputStream(abogado.getImage());
-            return inputStream;
+            String base64EncodedImage = abogado.getImage64();
+
+            if (base64EncodedImage != null && !base64EncodedImage.isEmpty()) {
+                ByteArrayInputStream inputStream = new ByteArrayInputStream(Base64.getDecoder().decode(base64EncodedImage));
+                return inputStream;
+            } else {
+                // Return an empty stream or handle the case where image data is missing
+                return new ByteArrayInputStream(new byte[0]);
+            }
         });
     }
 
